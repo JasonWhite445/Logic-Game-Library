@@ -8,6 +8,7 @@ Created on Tue Jan 23 12:35:34 2024
 import pygame
 import random
 
+
 def board_reader(board):
     # Prints rows from top to bottom
     for row in range(9):
@@ -33,6 +34,7 @@ def board_reader(board):
         print([board[pos // 3 + box // 3 * 3][pos % 3 + box % 3 * 3] for pos in range(9)])
     print()
     return
+
 
 def board_checker(board):
     # Checks if rows are valid
@@ -68,6 +70,7 @@ def board_checker(board):
 #             print(vrow, vcol, board[vrow][vcol], (vrow % 3), (vcol // 3))
             
     return board
+
 
 valid_sudoku_board = [[8, 2, 7, 1, 5, 4, 3, 9, 6],
                       [9, 6, 5, 3, 2, 7, 1, 4, 8],
