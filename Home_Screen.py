@@ -12,7 +12,7 @@ pygame.init()
 # Set up the display
 WIDTH, HEIGHT = 550, 550
 screen = pygame.display.set_mode((WIDTH, HEIGHT))
-pygame.display.set_caption("Sudoku Launcher")
+pygame.display.set_caption("Home Screen")
 
 # Create font objects
 font = pygame.font.SysFont('Comic Sans MS', 50)
@@ -50,4 +50,4 @@ while running:
 
     # Update the full display Surface to the screen
     pygame.display.flip()
-    pygame.time.Clock().tick(30)
+    pygame.time.Clock().tick(30)  # frame rate

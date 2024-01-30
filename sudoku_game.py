@@ -23,6 +23,7 @@ grid_original = [[grid[x][y] for y in range(len(grid[0]))] for x in range(len(gr
 
 
 # https://github.com/PiyushG14/Pygame-sudoku - API based Sudoku board, very helpful in creating and reading inputs
+# inserting numbers into grid
 def insert(win, position):
     i, j = position[1], position[0]
     myfont = pygame.font.SysFont('Comic Sans MS', 35)
@@ -78,6 +79,7 @@ def sudoku_main():
         pygame.draw.line(win, (0, 0, 0), (50, 50 + 50 * i), (500, 50 + 50 * i), 2)
     pygame.display.update()
 
+    # displaying initial grid values
     for i in range(0, len(grid[0])):
         for j in range(0, len(grid[0])):
             if 0 < grid[i][j] < 10:
