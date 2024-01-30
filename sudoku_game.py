@@ -1,6 +1,5 @@
 import pygame
 
-
 WIDTH = 550
 background_color = (255, 255, 255)
 original_grid_element_color = (166, 0, 124)
@@ -8,13 +7,13 @@ buffer = 5
 
 # input will eventually come from make_random_board function
 grid = [[0, 2, 7, 1, 5, 4, 3, 9, 0],
-        [9, 6, 5, 3, 2, 7, 1, 4, 8],
-        [3, 4, 1, 6, 8, 9, 7, 5, 2],
-        [5, 9, 3, 4, 6, 0, 2, 7, 1],
-        [4, 7, 2, 5, 1, 3, 6, 8, 9],
-        [6, 1, 8, 9, 7, 2, 4, 3, 5],
-        [7, 8, 6, 2, 3, 5, 9, 1, 4],
-        [1, 5, 4, 7, 9, 6, 8, 2, 3],
+        [0, 6, 5, 3, 2, 7, 1, 4, 8],
+        [0, 4, 1, 6, 8, 9, 7, 5, 2],
+        [0, 9, 3, 4, 6, 0, 2, 7, 1],
+        [0, 7, 2, 5, 1, 3, 6, 8, 9],
+        [0, 1, 8, 9, 7, 2, 4, 3, 5],
+        [0, 8, 6, 2, 3, 5, 9, 1, 4],
+        [0, 5, 4, 7, 9, 6, 8, 2, 3],
         [0, 3, 9, 8, 4, 1, 5, 6, 0]]
 
 # import board_checker function here, constantly check in main if inputs satisfy conditions.
@@ -39,6 +38,7 @@ def insert(win, position):
                     pygame.draw.rect(win, background_color, (
                     position[0] * 50 + buffer, position[1] * 50 + buffer, 50 - 2 * buffer, 50 - 2 * buffer))
                     pygame.display.update()
+                    print_grid(grid)  # Print the updated grid
                     return
                 if 0 < event.key - 48 < 10:  # checking for valid input
                     pygame.draw.rect(win, background_color, (
@@ -47,11 +47,19 @@ def insert(win, position):
                     win.blit(value, (position[0] * 50 + 15, position[1] * 50))
                     grid[i - 1][j - 1] = event.key - 48
                     pygame.display.update()
+                    print_grid(grid)  # Print the updated grid
                     return
                 return
 
 
-def main():
+# prints board for debugging
+def print_grid(grid):
+    for row in grid:
+        print(row)
+    print("\n")
+
+
+def sudoku_main():
     pygame.init()
     win = pygame.display.set_mode((WIDTH, WIDTH))
     pygame.display.set_caption("Sudoku")
@@ -87,4 +95,4 @@ def main():
                 return
 
 
-main()
+# sudoku_main()
