@@ -6,20 +6,32 @@ original_grid_element_color = (166, 0, 124)
 buffer = 5
 
 # input will eventually come from make_random_board function
-grid = [[0, 2, 7, 1, 5, 4, 3, 9, 0],
-        [0, 6, 5, 3, 2, 7, 1, 4, 8],
-        [0, 4, 1, 6, 8, 9, 7, 5, 2],
-        [0, 9, 3, 4, 6, 0, 2, 7, 1],
-        [0, 7, 2, 5, 1, 3, 6, 8, 9],
-        [0, 1, 8, 9, 7, 2, 4, 3, 5],
-        [0, 8, 6, 2, 3, 5, 9, 1, 4],
-        [0, 5, 4, 7, 9, 6, 8, 2, 3],
+grid = [[0, 2, 7, 1, 5, 4, 3, 9, 6],
+        [9, 6, 5, 3, 2, 7, 1, 4, 8],
+        [3, 4, 1, 6, 8, 9, 7, 5, 2],
+        [5, 9, 3, 0, 6, 8, 2, 7, 1],
+        [4, 7, 2, 5, 1, 3, 6, 8, 9],
+        [6, 1, 8, 9, 7, 2, 4, 3, 5],
+        [7, 8, 6, 2, 3, 5, 9, 1, 4],
+        [1, 5, 4, 7, 9, 6, 8, 2, 3],
         [0, 3, 9, 8, 4, 1, 5, 6, 0]]
-
-# import board_checker function here, constantly check in main if inputs satisfy conditions.
 
 
 grid_original = [[grid[x][y] for y in range(len(grid[0]))] for x in range(len(grid))]
+
+
+# Check if the board is a valid solution
+def board_checker(board):
+    for row in range(9):
+        if sorted(board[row]) != [1, 2, 3, 4, 5, 6, 7, 8, 9]:
+            return False
+    for col in range(9):
+        if sorted([board[i][col] for i in range(9)]) != [1, 2, 3, 4, 5, 6, 7, 8, 9]:
+            return False
+    for box in range(9):
+        if sorted([board[pos // 3 + box // 3 * 3][pos % 3 + box % 3 * 3] for pos in range(9)]) != [1, 2, 3, 4, 5, 6, 7, 8, 9]:
+            return False
+    return True
 
 
 # https://github.com/PiyushG14/Pygame-sudoku - API based Sudoku board, very helpful in creating and reading inputs
@@ -40,7 +52,14 @@ def insert(win, position):
                     position[0] * 50 + buffer, position[1] * 50 + buffer, 50 - 2 * buffer, 50 - 2 * buffer))
                     pygame.display.update()
                     print_grid(grid)  # Print the updated grid
+                    if board_checker(grid):
+                        win.fill(background_color)
+                        font = pygame.font.SysFont('Comic Sans MS', 40)
+                        text = font.render('You Win!', True, (0, 0, 255))
+                        win.blit(text, (50, 250))
+                        pygame.display.update()
                     return
+
                 if 0 < event.key - 48 < 10:  # checking for valid input
                     pygame.draw.rect(win, background_color, (
                     position[0] * 50 + buffer, position[1] * 50 + buffer, 50 - 2 * buffer, 50 - 2 * buffer))
@@ -49,6 +68,12 @@ def insert(win, position):
                     grid[i - 1][j - 1] = event.key - 48
                     pygame.display.update()
                     print_grid(grid)  # Print the updated grid
+                    if board_checker(grid):
+                        win.fill(background_color)
+                        font = pygame.font.SysFont('Comic Sans MS', 40)
+                        text = font.render('You Win!', True, (0, 0, 255))
+                        win.blit(text, (50, 250))
+                        pygame.display.update()
                     return
                 return
 
