@@ -116,7 +116,10 @@ def sudoku_main():
         for event in pygame.event.get():
             if event.type == pygame.MOUSEBUTTONUP and event.button == 1:
                 pos = pygame.mouse.get_pos()
-                insert(win, (pos[0] // 50, pos[1] // 50))
+                print(pos[0] // 50, pos[1] // 50)   # prints position for debugging
+                # Ensures insert is in range of the grid
+                if (((pos[0] // 50) >= 1) and ((pos[0] // 50) <= 9)) and (((pos[1] // 50) >= 1) and ((pos[1] // 50) <= 9)):
+                    insert(win, (pos[0] // 50, pos[1] // 50))
             if event.type == pygame.QUIT:
                 pygame.quit()
                 return
