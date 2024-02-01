@@ -2,7 +2,7 @@ import pygame
 
 WIDTH = 550
 background_color = (255, 255, 255)
-original_grid_element_color = (166, 0, 124)
+original_grid_element_color = (91, 114, 138)
 buffer = 5
 
 # input will eventually come from make_random_board function
