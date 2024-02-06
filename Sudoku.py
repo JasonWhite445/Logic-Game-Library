@@ -6,6 +6,7 @@ import random
 # Takes user input to adjust size of sudoku board - N needs to be a square number
 size = int(input("What size sudoku would you like to try? Enter in form NxN: ").partition('x')[0])
 
+
 def board_reader(board, size):
     sqrt_size = int(size ** (1/2))
     # Used for visual testing
@@ -56,9 +57,6 @@ def make_random_board(board, size):
         row1 = [i for i in range(1, size+1)]
         random.shuffle(row1)
         board[0] = row1
-        for row in range(1, size):
-            # Shuffles numbers to randomize the first column
-            board[row][0] = random.choice(check_usable(board, size, row, 0))
         return make_random_board(board, size)
     else:
         # Creates the list of usable numbers for specific position
