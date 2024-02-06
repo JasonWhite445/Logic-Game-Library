@@ -19,6 +19,7 @@ valid_sudoku_board = [[8, 2, 7, 1, 5, 4, 3, 9, 6],
                       [1, 5, 4, 7, 9, 6, 8, 2, 3],
                       [2, 3, 9, 8, 4, 1, 5, 6, 7]]
 
+
 def board_reader(board):
     # Used for visual testing
     # Prints rows from top to bottom
@@ -35,6 +36,7 @@ def board_reader(board):
     print()
     return
 
+
 def board_checker(board):
     # Checks if rows are valid
     for row in range(9):
@@ -49,6 +51,7 @@ def board_checker(board):
         if sorted([board[pos // 3 + box // 3 * 3][pos % 3 + box % 3 * 3] for pos in range(9)]) != [1, 2, 3, 4, 5, 6, 7, 8, 9]:
             return False
     return True
+
 
 def make_random_board(board):
     if not empty_spot(board):
@@ -79,6 +82,7 @@ def make_random_board(board):
             # If that number leads to a dead end
             board[i_row][i_col] = 0
 
+
 def empty_spot(board):
     # Returns the row and column index of the first 0 in the board
     for i_row, row in enumerate(board):
@@ -87,6 +91,7 @@ def empty_spot(board):
                 return i_row, i_col
     # Return None if the sudoku is full
     return None
+
 
 def check_usable(board, row, col):
     box = 3 * (row // 3) + (col // 3)

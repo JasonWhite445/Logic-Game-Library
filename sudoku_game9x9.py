@@ -1,4 +1,5 @@
 import pygame
+import time
 
 WIDTH = 550
 background_color = (255, 255, 255)
@@ -34,6 +35,12 @@ def board_checker(board):
     return True
 
 
+def highlight_cell(win, position):
+    pygame.draw.rect(win, (255, 0, 0), (
+        position[0] * 50 + buffer, position[1] * 50 + buffer, 50 - 2 * buffer, 50 - 2 * buffer), 3)
+    pygame.display.update()
+
+
 # https://github.com/PiyushG14/Pygame-sudoku - API based Sudoku board, very helpful in creating and reading inputs
 # inserting numbers into grid
 def insert(win, position):
@@ -49,7 +56,7 @@ def insert(win, position):
                 if event.key == 48:  # checking if space is 0, will return blank
                     grid[i - 1][j - 1] = event.key - 48
                     pygame.draw.rect(win, background_color, (
-                    position[0] * 50 + buffer, position[1] * 50 + buffer, 50 - 2 * buffer, 50 - 2 * buffer))
+                        position[0] * 50 + buffer, position[1] * 50 + buffer, 50 - 2 * buffer, 50 - 2 * buffer))
                     pygame.display.update()
                     print_grid(grid)  # Print the updated grid
                     if board_checker(grid):
@@ -117,11 +124,19 @@ def sudoku_main():
             if event.type == pygame.MOUSEBUTTONUP and event.button == 1:
                 pos = pygame.mouse.get_pos()
                 print(pos[0] // 50, pos[1] // 50)   # prints position for debugging
+                selected_cell = (pos[0] // 50, pos[1] // 50)  # Update selected cell position
+                if (((pos[0] // 50) >= 1) and ((pos[0] // 50) <= 9)) and (((pos[1] // 50) >= 1) and ((pos[1] // 50) <= 9)):
+                    if grid_original[selected_cell[1] - 1][selected_cell[0] - 1] == 0:  # Check if cell is empty
+                        highlight_cell(win, selected_cell)
+
                 # Ensures insert is in range of the grid
                 if (((pos[0] // 50) >= 1) and ((pos[0] // 50) <= 9)) and (((pos[1] // 50) >= 1) and ((pos[1] // 50) <= 9)):
                     insert(win, (pos[0] // 50, pos[1] // 50))
+
+            if event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE:
+                return
+
             if event.type == pygame.QUIT:
-                pygame.quit()
                 return
 
 
