@@ -58,4 +58,3 @@ while running:
 
     # Update the full display Surface to the screen
     pygame.display.flip()
-    pygame.time.Clock().tick(30)  # frame rate
