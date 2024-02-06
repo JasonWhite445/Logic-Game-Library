@@ -1,12 +1,14 @@
 import pygame
+import time
 
 WIDTH = 550
 background_color = (255, 255, 255)
-original_grid_element_color = (166, 0, 124)
+original_grid_element_color = (91, 114, 138)
 buffer = 5
+timer_on = True
 
 # input will eventually come from make_random_board function
-grid = [[0, 2, 7, 1, 5, 4, 3, 9, 6],
+grid = [[8, 2, 7, 1, 5, 4, 3, 9, 6],
         [9, 6, 5, 3, 2, 7, 1, 4, 8],
         [3, 4, 1, 6, 8, 9, 7, 5, 2],
         [5, 9, 3, 0, 6, 8, 2, 7, 1],
@@ -14,7 +16,7 @@ grid = [[0, 2, 7, 1, 5, 4, 3, 9, 6],
         [6, 1, 8, 9, 7, 2, 4, 3, 5],
         [7, 8, 6, 2, 3, 5, 9, 1, 4],
         [1, 5, 4, 7, 9, 6, 8, 2, 3],
-        [0, 3, 9, 8, 4, 1, 5, 6, 0]]
+        [2, 3, 9, 8, 4, 1, 5, 6, 7]]
 
 
 grid_original = [[grid[x][y] for y in range(len(grid[0]))] for x in range(len(grid))]
@@ -34,6 +36,22 @@ def board_checker(board):
     return True
 
 
+def highlight_cell(win, position):
+    pygame.draw.rect(win, (255, 0, 0), (
+        position[0] * 50 + buffer, position[1] * 50 + buffer, 50 - 2 * buffer, 50 - 2 * buffer), 3)
+    pygame.display.update()
+
+
+def launch_win_screen(win):
+    win.fill(background_color)
+    font = pygame.font.SysFont('Comic Sans MS', 40)
+    text = font.render('You Win!', True, (0, 0, 255))
+    win.blit(text, (50, 250))
+    global timer_on
+    timer_on = False
+    pygame.display.update()
+
+
 # https://github.com/PiyushG14/Pygame-sudoku - API based Sudoku board, very helpful in creating and reading inputs
 # inserting numbers into grid
 def insert(win, position):
@@ -49,31 +67,23 @@ def insert(win, position):
                 if event.key == 48:  # checking if space is 0, will return blank
                     grid[i - 1][j - 1] = event.key - 48
                     pygame.draw.rect(win, background_color, (
-                    position[0] * 50 + buffer, position[1] * 50 + buffer, 50 - 2 * buffer, 50 - 2 * buffer))
+                        position[0] * 50 + buffer, position[1] * 50 + buffer, 50 - 2 * buffer, 50 - 2 * buffer))
                     pygame.display.update()
                     print_grid(grid)  # Print the updated grid
                     if board_checker(grid):
-                        win.fill(background_color)
-                        font = pygame.font.SysFont('Comic Sans MS', 40)
-                        text = font.render('You Win!', True, (0, 0, 255))
-                        win.blit(text, (50, 250))
-                        pygame.display.update()
+                        launch_win_screen(win)
                     return
 
                 if 0 < event.key - 48 < 10:  # checking for valid input
                     pygame.draw.rect(win, background_color, (
-                    position[0] * 50 + buffer, position[1] * 50 + buffer, 50 - 2 * buffer, 50 - 2 * buffer))
+                        position[0] * 50 + buffer, position[1] * 50 + buffer, 50 - 2 * buffer, 50 - 2 * buffer))
                     value = myfont.render(str(event.key - 48), True, (0, 0, 0))
                     win.blit(value, (position[0] * 50 + 15, position[1] * 50))
                     grid[i - 1][j - 1] = event.key - 48
                     pygame.display.update()
                     print_grid(grid)  # Print the updated grid
                     if board_checker(grid):
-                        win.fill(background_color)
-                        font = pygame.font.SysFont('Comic Sans MS', 40)
-                        text = font.render('You Win!', True, (0, 0, 255))
-                        win.blit(text, (50, 250))
-                        pygame.display.update()
+                        launch_win_screen(win)
                     return
                 return
 
@@ -91,6 +101,9 @@ def sudoku_main():
     pygame.display.set_caption("Sudoku")
     win.fill(background_color)
     myfont = pygame.font.SysFont('Comic Sans MS', 35)
+
+    # Initialize timer
+    start_time = time.time()
 
     # https://www.pygame.org/docs/ref/draw.html
     # Drawing gridlines
@@ -113,16 +126,36 @@ def sudoku_main():
     pygame.display.update()
 
     while True:
+        if timer_on:
+            # Calculate elapsed time
+            elapsed_time = time.time() - start_time
+
+            # Clear previous timer text
+            pygame.draw.rect(win, background_color, (10, 510, 250, 40))
+
+            # Display timer
+            timer_text = myfont.render(f"Time: {elapsed_time:.0f}", True, (0, 0, 0))
+            win.blit(timer_text, (10, 500))
+
         for event in pygame.event.get():
             if event.type == pygame.MOUSEBUTTONUP and event.button == 1:
                 pos = pygame.mouse.get_pos()
                 print(pos[0] // 50, pos[1] // 50)   # prints position for debugging
+                selected_cell = (pos[0] // 50, pos[1] // 50)  # Update selected cell position
+                if (((pos[0] // 50) >= 1) and ((pos[0] // 50) <= 9)) and (((pos[1] // 50) >= 1) and ((pos[1] // 50) <= 9)):
+                    if grid_original[selected_cell[1] - 1][selected_cell[0] - 1] == 0:  # Check if cell is empty
+                        highlight_cell(win, selected_cell)
+
                 # Ensures insert is in range of the grid
                 if (((pos[0] // 50) >= 1) and ((pos[0] // 50) <= 9)) and (((pos[1] // 50) >= 1) and ((pos[1] // 50) <= 9)):
                     insert(win, (pos[0] // 50, pos[1] // 50))
-            if event.type == pygame.QUIT:
-                pygame.quit()
+
+            if event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE:
                 return
+
+            if event.type == pygame.QUIT:
+                return
+        pygame.display.update()
 
 
 # sudoku_main()
