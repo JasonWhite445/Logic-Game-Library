@@ -1,56 +1,51 @@
 # -*- coding: utf-8 -*-
-"""
-Created on Tue Jan 23 12:35:34 2024
-
-@author: Adam
-"""
 
 import pygame
 import random
 
-# Test input - will later become user input
-valid_sudoku_board = [[8, 2, 7, 1, 5, 4, 3, 9, 6],
-                      [9, 6, 5, 3, 2, 7, 1, 4, 8],
-                      [3, 4, 1, 6, 8, 9, 7, 5, 2],
-                      [5, 9, 3, 4, 6, 8, 2, 7, 1],
-                      [4, 7, 2, 5, 1, 3, 6, 8, 9],
-                      [6, 1, 8, 9, 7, 2, 4, 3, 5],
-                      [7, 8, 6, 2, 3, 5, 9, 1, 4],
-                      [1, 5, 4, 7, 9, 6, 8, 2, 3],
-                      [2, 3, 9, 8, 4, 1, 5, 6, 7]]
+# Takes user input to adjust size of sudoku board - N needs to be a square number
+size = int(input("What size sudoku would you like to try? Enter in form NxN: ").partition('x')[0])
 
-def board_reader(board):
+def board_reader(board, size):
+    sqrt_size = int(size ** (1/2))
     # Used for visual testing
     # Prints rows from top to bottom
-    for row in range(9):
+    for row in range(size):
         print(board[row])
     print()
     # Prints columns from left to right
-    for col in range(9):
-        print([board[i][col] for i in range(9)])
+    for col in range(size):
+        print([board[i][col] for i in range(size)])
     print()
     # Prints the boxes left to right, top to bottom
-    for box in range(9):
-        print([board[pos // 3 + box // 3 * 3][pos % 3 + box % 3 * 3] for pos in range(9)])
+    for box in range(size):
+        print([board[pos // sqrt_size + box // sqrt_size * sqrt_size][pos % sqrt_size + box % sqrt_size * sqrt_size] for pos in range(size)])
     print()
     return
 
-def board_checker(board):
+def board_checker(board, size):
+    sqrt_size = int(size**(1/2))
+    numbers = [i for i in range(1, size+1)]
     # Checks if rows are valid
-    for row in range(9):
-        if sorted(board[row]) != [1, 2, 3, 4, 5, 6, 7, 8, 9]:
+    for row in range(size):
+        if sorted(board[row]) != numbers:
             return False
     # Checks if columns are valid
-    for col in range(9):
-        if sorted([board[i][col] for i in range(9)]) != [1, 2, 3, 4, 5, 6, 7, 8, 9]:
+    for col in range(size):
+        if sorted([board[i][col] for i in range(size)]) != numbers:
             return False
     # Checks if boxes are valid
-    for box in range(9):
-        if sorted([board[pos // 3 + box // 3 * 3][pos % 3 + box % 3 * 3] for pos in range(9)]) != [1, 2, 3, 4, 5, 6, 7, 8, 9]:
+    for box in range(size):
+        temp = []
+        for pos in range(size):
+            i_row = pos // sqrt_size + box // sqrt_size * sqrt_size
+            i_col = pos % sqrt_size + box % sqrt_size * sqrt_size
+            temp.append(board[i_row][i_col])
+        if sorted(temp) != numbers:
             return False
     return True
 
-def make_random_board(board):
+def make_random_board(board, size):
     if not empty_spot(board):
         # Gets called if there are no 0s in the board
         return board
@@ -58,24 +53,24 @@ def make_random_board(board):
     i_row, i_col = empty_spot(board)
     if i_row == 0 and i_col == 0:
         # Shuffles numbers to randomize the first row
-        row1 = [1, 2, 3, 4, 5, 6, 7, 8, 9]
+        row1 = [i for i in range(1, size+1)]
         random.shuffle(row1)
         board[0] = row1
-        for row in range(1, 9):
+        for row in range(1, size):
             # Shuffles numbers to randomize the first column
-            board[row][0] = random.choice(check_usable(board, row, 0))
-        return make_random_board(board)
+            board[row][0] = random.choice(check_usable(board, size, row, 0))
+        return make_random_board(board, size)
     else:
         # Creates the list of usable numbers for specific position
         # Shuffles the list so that the board is random
-        usable = check_usable(board, i_row, i_col)
+        usable = check_usable(board, size, i_row, i_col)
         random.shuffle(usable)
         for num in usable:
             # Replaces the 0 with a usable number
             board[i_row][i_col] = num
-            if make_random_board(board):
+            if make_random_board(board, size):
                 # Recursion step - will get called if that number results in a full board
-                return True
+                return board
             # If that number leads to a dead end
             board[i_row][i_col] = 0
 
@@ -88,21 +83,20 @@ def empty_spot(board):
     # Return None if the sudoku is full
     return None
 
-def check_usable(board, row, col):
-    box = 3 * (row // 3) + (col // 3)
-    box_nums = [board[pos // 3 + box // 3 * 3][pos % 3 + box % 3 * 3] for pos in range(9)]
+def check_usable(board, size, row, col):
+    sqrt_size = int(size ** (1/2))
+    box = sqrt_size * (row // sqrt_size) + (col // sqrt_size)
+    box_nums = [board[pos // sqrt_size + box // sqrt_size * sqrt_size][pos % sqrt_size + box % sqrt_size * sqrt_size] for pos in range(size)]
     row_nums = [i for i in board[row] if i != 0]
-    col_nums = [board[pos][col] for pos in range(9) if board[pos][col] != 0]
+    col_nums = [board[pos][col] for pos in range(size) if board[pos][col] != 0]
     box_nums = [i for i in box_nums if i != 0]
     used = list(set(box_nums + row_nums + col_nums))
-    return [n for n in [1, 2, 3, 4, 5, 6, 7, 8, 9] if n not in used]
+    return [n for n in [i for i in range(1, size+1)] if n not in used]
 
-
-# board_reader(valid_sudoku_board)
-# print(board_checker(valid_sudoku_board))
 
 # Chunk below creates a board full of 0s then randomly creates a solved board
-random_start = [[0 for i in range(9)] for j in range(9)]
-make_random_board(random_start)
-for row in random_start:
-    print(row)
+valid_sudoku_board = make_random_board([[0 for i in range(size)] for j in range(size)], size)
+
+board_reader(valid_sudoku_board, size)
+print(board_checker(valid_sudoku_board, size))
+
