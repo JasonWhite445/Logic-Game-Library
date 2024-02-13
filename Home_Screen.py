@@ -1,6 +1,6 @@
 import pygame
-import sudoku_game9x9
 import sys
+import User_options
 
 # Define colors
 WHITE = (255, 255, 255)
@@ -36,7 +36,7 @@ def draw_home_screen():
 
 
 def launch_sudoku_game():
-    sudoku_game9x9.sudoku_main()
+    User_options.main()
     draw_home_screen()
 
 
