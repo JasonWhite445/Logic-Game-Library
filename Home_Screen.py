@@ -1,6 +1,6 @@
 import pygame
-import sudoku_game9x9
 import sys
+import User_options
 
 # Define colors
 WHITE = (255, 255, 255)
@@ -16,27 +16,27 @@ screen = pygame.display.set_mode((WIDTH, HEIGHT))
 pygame.display.set_caption("Home Screen")
 
 # Create font objects
-font = pygame.font.SysFont('Comic Sans MS', 50)
+font = pygame.font.SysFont('Cooper Black', 50)
 
-# Draw "Sudoku 9x9" text in a rectangle
-text_surface9x9 = font.render("Sudoku 9x9", True, BLACK)
-text_rect9x9 = text_surface9x9.get_rect(center=(WIDTH//2, HEIGHT//2))
+# Draw "Sudoku" text in a rectangle
+text_surface_sudoku = font.render("Sudoku", True, BLACK)
+text_rect_sudoku = text_surface_sudoku.get_rect(center=(WIDTH//2, HEIGHT//2))
 
 # Draw "Sudoku 12x12" text in a rectangle
-text_surface12x12 = font.render("Sudoku 12x12", True, BLACK)
-text_rect12x12 = text_surface12x12.get_rect(center=(WIDTH//2, HEIGHT//4))
+text_surface_other_game = font.render("Other Game", True, BLACK)
+text_rect_other_game = text_surface_other_game.get_rect(center=(WIDTH//2, HEIGHT//4))
 
 
 def draw_home_screen():
     screen.fill(BLUE)
-    pygame.draw.rect(screen, BLACK, text_rect9x9, 1)
-    screen.blit(text_surface9x9, text_rect9x9)
-    pygame.draw.rect(screen, BLACK, text_rect12x12, 1)
-    screen.blit(text_surface12x12, text_rect12x12)
+    pygame.draw.rect(screen, BLACK, text_rect_sudoku, 1)
+    screen.blit(text_surface_sudoku, text_rect_sudoku)
+    pygame.draw.rect(screen, BLACK, text_rect_other_game, 1)
+    screen.blit(text_surface_other_game, text_rect_other_game)
 
 
 def launch_sudoku_game():
-    sudoku_game9x9.sudoku_main()
+    User_options.main()
     draw_home_screen()
 
 
@@ -50,7 +50,7 @@ while running:
             sys.exit()
         elif event.type == pygame.MOUSEBUTTONUP:
             mouse_pos = pygame.mouse.get_pos()
-            if text_rect9x9.collidepoint(mouse_pos):
+            if text_rect_sudoku.collidepoint(mouse_pos):
                 launch_sudoku_game()
 
     # Draw the home screen
