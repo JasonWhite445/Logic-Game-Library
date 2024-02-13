@@ -16,7 +16,7 @@ screen = pygame.display.set_mode((WIDTH, HEIGHT))
 pygame.display.set_caption("Home Screen")
 
 # Create font objects
-font = pygame.font.SysFont('Comic Sans MS', 50)
+font = pygame.font.SysFont('Cooper Black', 50)
 
 # Draw "Sudoku 9x9" text in a rectangle
 text_surface9x9 = font.render("Sudoku 9x9", True, BLACK)
