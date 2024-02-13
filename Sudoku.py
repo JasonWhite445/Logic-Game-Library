@@ -8,20 +8,8 @@ def board_reader(board):
     :param board: Sudoku board in the form of an array - Doesn't need to be completed
     """
     size = len(board)
-    sqrt_size = int(size ** (1/2))
     for row in range(size):  # Prints rows from top to bottom
         print(board[row])
-    print()
-    for col in range(size):  # Prints columns from left to right
-        print([board[i][col] for i in range(size)])
-    print()
-    for box in range(size):  # Prints boxes left to right, then top to bottom
-        temp = []
-        for pos in range(size):
-            i_row = pos // sqrt_size + box // sqrt_size * sqrt_size
-            i_col = pos % sqrt_size + box % sqrt_size * sqrt_size
-            temp.append(board[i_row][i_col])
-        print(temp)
     print()
     return
 
@@ -118,14 +106,51 @@ def number_of_solutions(board):
         board[i_row][i_col] = 0  # Backtrack
     return count
 
+def difficulty_sum(board):
+    """
+    Counts the number of possible values for each cell then sums it for the whole board
+    :param board: Incomplete sudoku board
+    :return: Difficulty value
+    """
+    # Easy - 175
+    # Medium - 245
+    # Hard - 270
+    total = 0
+    for i_row, row in enumerate(board):
+        for i_col, num in enumerate(row):
+            total += len(check_usable(board, i_row, i_col))
+    return total
 
-# Takes user input to adjust size of sudoku board - N needs to be a square number
+def remove_numbers(board, difficulty):
+    # Currently only works with 9x9 Sudokus
+    # Easy, Medium, and Hard values are based off of test cases
+    size = len(board)
+    if size == 9:
+        if difficulty.lower()[0] == "e":
+            difficulty = 175
+        elif difficulty.lower()[0] == "m":
+            difficulty = 245
+        elif difficulty.lower()[0] == "h":
+            difficulty = 270
+    while difficulty_sum(board) < difficulty:
+        row, col = random.randrange(size), random.randrange(size)
+        while board[row][col] == 0:
+            # Saves some time by preventing replacing 0s in the board
+            row, col = random.randrange(size), random.randrange(size)
+        temp, board[row][col] = board[row][col], 0
+        if number_of_solutions(board) > 1:
+            # Never want to give a board with multiple solutions
+            board[row][col] = temp
+    return board
+
+
+# Takes user input to adjust size/difficulty of sudoku board - N needs to be a square number
 dimension = int(input("What size sudoku would you like to try? Enter in form NxN: ").partition('x')[0])
+level = input("What difficulty would you like to try? Easy, Medium, or Hard: ")
 # Chunk below creates a board full of 0s then randomly creates a solved board
-valid_sudoku_board = fill_board([[0 for _ in range(dimension)] for _ in range(dimension)])
+random_solvable_board = remove_numbers(fill_board([[0 for _ in range(dimension)] for _ in range(dimension)]), level)
 
-board_reader(valid_sudoku_board)
-print(board_checker(valid_sudoku_board))
+board_reader(random_solvable_board)
 
 one_solution_test = [[8, 0, 4, 9, 0, 3, 0, 7, 1],
                      [6, 3, 5, 8, 0, 7, 0, 2, 4],
@@ -136,18 +161,71 @@ one_solution_test = [[8, 0, 4, 9, 0, 3, 0, 7, 1],
                      [0, 6, 0, 5, 4, 0, 7, 3, 8],
                      [4, 7, 0, 3, 0, 2, 1, 9, 5],
                      [9, 5, 0, 1, 0, 8, 4, 0, 2]]
-print(number_of_solutions(one_solution_test))
+# print(number_of_solutions(one_solution_test))
 # solve_test = fill_board(one_solution_test)
 # board_reader(solve_test)
 
-multiple_solution_test = [[0, 0, 5, 7, 4, 3, 8, 6, 1],
-                          [4, 3, 1, 8, 6, 5, 9, 0, 0],
-                          [8, 7, 6, 1, 9, 2, 5, 4, 3],
-                          [3, 8, 7, 4, 5, 9, 2, 1, 6],
-                          [6, 1, 2, 3, 8, 7, 4, 9, 5],
-                          [5, 4, 9, 2, 1, 6, 7, 3, 8],
-                          [7, 6, 3, 5, 2, 4, 1, 8, 9],
-                          [0, 0, 8, 6, 7, 1, 3, 5, 4],
-                          [1, 5, 4, 9, 3, 8, 6, 0, 0]]
-print(number_of_solutions(multiple_solution_test))
+test_1 = [[0, 0, 5, 0, 1, 7, 0, 0, 0],
+          [7, 2, 0, 3, 9, 4, 0, 0, 1],
+          [0, 9, 1, 0, 0, 0, 0, 0, 0],
+          [9, 0, 0, 4, 0, 0, 5, 6, 0],
+          [0, 0, 7, 0, 5, 0, 3, 4, 2],
+          [2, 0, 0, 0, 3, 0, 1, 0, 7],
+          [0, 0, 9, 1, 2, 3, 6, 0, 5],
+          [0, 0, 0, 0, 0, 9, 7, 0, 4],
+          [0, 3, 8, 7, 0, 6, 0, 0, 9]]
+test_2 = [[0, 0, 0, 9, 0, 0, 0, 0, 0],
+          [8, 3, 0, 0, 7, 0, 6, 0, 0],
+          [0, 4, 0, 0, 0, 0, 8, 0, 7],
+          [0, 0, 0, 7, 5, 4, 0, 0, 8],
+          [1, 5, 7, 0, 0, 0, 0, 9, 6],
+          [2, 8, 0, 1, 0, 0, 0, 0, 0],
+          [0, 6, 0, 0, 9, 0, 1, 0, 5],
+          [4, 1, 0, 0, 8, 0, 0, 0, 0],
+          [9, 0, 8, 0, 0, 0, 0, 7, 0]]
+test_3 = [[3, 0, 0, 0, 0, 6, 1, 0, 0],
+          [0, 5, 0, 3, 0, 9, 0, 0, 0],
+          [0, 2, 0, 8, 0, 0, 5, 4, 3],
+          [0, 0, 5, 0, 2, 0, 0, 0, 9],
+          [0, 4, 0, 0, 0, 0, 7, 0, 0],
+          [0, 0, 1, 0, 8, 0, 0, 0, 0],
+          [0, 3, 7, 0, 0, 8, 0, 6, 0],
+          [0, 8, 6, 1, 0, 0, 0, 0, 0],
+          [0, 1, 0, 7, 6, 0, 8, 0, 5]]
+test_4 = [[1, 3, 0, 5, 0, 0, 0, 7, 0],
+          [0, 0, 0, 0, 3, 0, 0, 0, 2],
+          [7, 6, 0, 9, 0, 0, 5, 0, 0],
+          [0, 0, 0, 0, 0, 0, 9, 0, 3],
+          [9, 0, 0, 0, 0, 3, 0, 8, 0],
+          [0, 0, 0, 0, 9, 1, 0, 0, 4],
+          [8, 7, 0, 6, 0, 0, 3, 0, 5],
+          [0, 0, 0, 0, 0, 4, 0, 0, 0],
+          [0, 0, 9, 1, 5, 0, 0, 0, 6]]
+test_5 = [[4, 0, 7, 1, 0, 3, 0, 0, 0],
+          [9, 1, 0, 0, 0, 0, 0, 0, 0],
+          [6, 0, 0, 0, 0, 4, 0, 9, 0],
+          [1, 3, 0, 0, 0, 0, 0, 0, 5],
+          [0, 9, 8, 0, 0, 2, 7, 0, 0],
+          [7, 0, 0, 0, 5, 8, 2, 0, 0],
+          [0, 0, 0, 0, 0, 0, 0, 7, 3],
+          [0, 0, 9, 0, 7, 6, 0, 5, 0],
+          [0, 0, 0, 4, 0, 5, 0, 0, 0]]
+test_6 = [[0, 9, 6, 0, 7, 0, 0, 4, 0],
+          [7, 4, 0, 2, 0, 0, 0, 0, 1],
+          [0, 0, 0, 0, 0, 0, 0, 0, 0],
+          [0, 0, 8, 4, 0, 7, 0, 0, 0],
+          [0, 0, 0, 9, 1, 5, 0, 0, 7],
+          [0, 0, 0, 0, 0, 0, 0, 5, 0],
+          [0, 6, 0, 0, 0, 0, 0, 0, 9],
+          [3, 0, 0, 0, 0, 0, 1, 0, 2],
+          [0, 0, 0, 0, 0, 4, 0, 0, 0]]
+test_7 = [[0, 7, 0, 8, 0, 0, 2, 0, 0],
+          [0, 0, 0, 5, 0, 0, 0, 0, 1],
+          [0, 0, 4, 0, 7, 1, 3, 0, 0],
+          [0, 5, 0, 0, 2, 9, 0, 0, 3],
+          [0, 0, 0, 1, 0, 0, 0, 0, 0],
+          [6, 0, 0, 0, 0, 0, 4, 0, 0],
+          [0, 0, 5, 0, 0, 0, 0, 2, 0],
+          [0, 0, 0, 0, 8, 0, 0, 0, 0],
+          [0, 2, 0, 0, 3, 7, 0, 0, 9]]
 
