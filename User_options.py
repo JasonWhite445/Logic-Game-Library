@@ -9,6 +9,7 @@ def user_options_main():
     WHITE = (255, 255, 255)
     BLACK = (0, 0, 0)
     BLUE = (217, 247, 250)
+    GRAY = (169, 169, 169)
 
     # initialize pygame
     pygame.init()
@@ -21,13 +22,13 @@ def user_options_main():
     # Create font objects
     font = pygame.font.SysFont('Comic Sans MS', 50)
 
-    text_surface_easy = font.render("Easy", True, BLACK)
+    text_surface_easy = font.render("Easy", True, GRAY)
     text_rect_easy = text_surface_easy.get_rect(center=(WIDTH//2, HEIGHT//2 - 200))
 
-    text_surface_medium = font.render("Medium", True, BLACK)
+    text_surface_medium = font.render("Medium", True, GRAY)
     text_rect_medium = text_surface_medium.get_rect(center=(WIDTH//2, HEIGHT//2-100))
 
-    text_surface_hard = font.render("Hard", True, BLACK)
+    text_surface_hard = font.render("Hard", True, GRAY)
     text_rect_hard = text_surface_hard.get_rect(center=(WIDTH//2, HEIGHT//2))
 
     text_surface_manual = font.render("Manual", True, BLACK)

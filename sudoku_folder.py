@@ -10,6 +10,7 @@ def sudoku_folder_main():
     WHITE = (255, 255, 255)
     BLACK = (0, 0, 0)
     BLUE = (217, 247, 250)
+    GRAY = (169, 169, 169)
 
     # Initialize Pygame
     pygame.init()
@@ -27,7 +28,7 @@ def sudoku_folder_main():
     text_rect9x9 = text_surface9x9.get_rect(center=(WIDTH//2, HEIGHT//2))
 
     # Draw "Sudoku 12x12" text in a rectangle
-    text_surface12x12 = font.render("Sudoku 12x12", True, BLACK)
+    text_surface12x12 = font.render("Sudoku 12x12", True, GRAY)
     text_rect12x12 = text_surface12x12.get_rect(center=(WIDTH//2, HEIGHT//4))
 
     def draw_sudoku_folder_home_screen():
