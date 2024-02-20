@@ -1,9 +1,11 @@
 import pygame
+
+import User_options
 import sys
-import sudoku_folder
 
 
-def home_screen_main():
+def sudoku_folder_main():
+
     # Define colors
     WHITE = (255, 255, 255)
     BLACK = (0, 0, 0)
@@ -15,30 +17,29 @@ def home_screen_main():
     # Set up the display
     WIDTH, HEIGHT = 550, 550
     screen = pygame.display.set_mode((WIDTH, HEIGHT))
-    pygame.display.set_caption("Home Screen")
+    pygame.display.set_caption("Sudoku Types")
 
     # Create font objects
     font = pygame.font.SysFont('Cooper Black', 50)
 
-    # Draw "Sudoku" text in a rectangle
-    text_surface_sudoku = font.render("Sudoku", True, BLACK)
-    text_rect_sudoku = text_surface_sudoku.get_rect(center=(WIDTH//2, HEIGHT//2))
+    # Draw "Sudoku 9x9" text in a rectangle
+    text_surface9x9 = font.render("Sudoku 9x9", True, BLACK)
+    text_rect9x9 = text_surface9x9.get_rect(center=(WIDTH//2, HEIGHT//2))
 
     # Draw "Sudoku 12x12" text in a rectangle
-    text_surface_other_game = font.render("Other Game", True, BLACK)
-    text_rect_other_game = text_surface_other_game.get_rect(center=(WIDTH//2, HEIGHT//4))
+    text_surface12x12 = font.render("Sudoku 12x12", True, BLACK)
+    text_rect12x12 = text_surface12x12.get_rect(center=(WIDTH//2, HEIGHT//4))
 
-    def draw_home_screen():
+    def draw_sudoku_folder_home_screen():
         screen.fill(BLUE)
-        pygame.draw.rect(screen, BLACK, text_rect_sudoku, 1)
-        screen.blit(text_surface_sudoku, text_rect_sudoku)
-        pygame.draw.rect(screen, BLACK, text_rect_other_game, 1)
-        screen.blit(text_surface_other_game, text_rect_other_game)
+        pygame.draw.rect(screen, BLACK, text_rect9x9, 1)
+        screen.blit(text_surface9x9, text_rect9x9)
+        pygame.draw.rect(screen, BLACK, text_rect12x12, 1)
+        screen.blit(text_surface12x12, text_rect12x12)
 
-    def launch_sudoku_game():
-        # User_options.user_options_main()
-        draw_home_screen()
-        sudoku_folder.sudoku_folder_main()
+    def launch_sudoku_folder_game():
+        draw_sudoku_folder_home_screen()
+        User_options.user_options_main()
 
     # Main loop
     running = True
@@ -50,8 +51,8 @@ def home_screen_main():
                 sys.exit()
             elif event.type == pygame.MOUSEBUTTONUP:
                 mouse_pos = pygame.mouse.get_pos()
-                if text_rect_sudoku.collidepoint(mouse_pos):
-                    launch_sudoku_game()
+                if text_rect9x9.collidepoint(mouse_pos):
+                    launch_sudoku_folder_game()             # different
 
             if event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE:
                 return
@@ -60,11 +61,11 @@ def home_screen_main():
                 return
 
         # Draw the home screen
-        draw_home_screen()
+        draw_sudoku_folder_home_screen()
 
         # Update the full display Surface to the screen
         pygame.display.flip()
 
 
-home_screen_main()
+# sudoku_folder_main()
 
