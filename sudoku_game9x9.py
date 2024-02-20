@@ -95,7 +95,7 @@ def print_grid(grid):
     print("\n")
 
 
-def sudoku_main():
+def sudoku_9x9_main():
     pygame.init()
     win = pygame.display.set_mode((WIDTH, WIDTH))
     pygame.display.set_caption("Sudoku")
@@ -158,4 +158,4 @@ def sudoku_main():
         pygame.display.update()
 
 
-# sudoku_main()
+# sudoku_9x9_main()

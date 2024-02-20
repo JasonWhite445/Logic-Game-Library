@@ -1,19 +1,19 @@
 import sys
 import sudoku_game9x9
 import pygame
-import time
 
-def main():
 
-    #initialize colors
+def user_options_main():
+
+    # initialize colors
     WHITE = (255, 255, 255)
     BLACK = (0, 0, 0)
     BLUE = (217, 247, 250)
 
-    #initialize pygame
+    # initialize pygame
     pygame.init()
 
-    #Initiaze user options
+    # Initiaze user options
     WIDTH, HEIGHT = 550, 550
     screen = pygame.display.set_mode((WIDTH, HEIGHT))
     pygame.display.set_caption("Make Your Choice")
@@ -46,7 +46,7 @@ def main():
 
     def option_screen():
         draw_user_screen_options()
-        sudoku_game9x9.sudoku_main()
+        sudoku_game9x9.sudoku_9x9_main()
 
     running = True
     while running:
@@ -65,5 +65,5 @@ def main():
         pygame.display.flip()
 
 
-
 # user_options_main()
+
