@@ -8,6 +8,7 @@ def home_screen_main():
     WHITE = (255, 255, 255)
     BLACK = (0, 0, 0)
     BLUE = (217, 247, 250)
+    GRAY = (169, 169, 169)
 
     # Initialize Pygame
     pygame.init()
@@ -25,7 +26,7 @@ def home_screen_main():
     text_rect_sudoku = text_surface_sudoku.get_rect(center=(WIDTH//2, HEIGHT//2))
 
     # Draw "Sudoku 12x12" text in a rectangle
-    text_surface_other_game = font.render("Other Game", True, BLACK)
+    text_surface_other_game = font.render("Other Game", True, GRAY)
     text_rect_other_game = text_surface_other_game.get_rect(center=(WIDTH//2, HEIGHT//4))
 
     def draw_home_screen():
