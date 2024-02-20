@@ -54,6 +54,12 @@ def sudoku_folder_main():
                 if text_rect9x9.collidepoint(mouse_pos):
                     launch_sudoku_folder_game()             # different
 
+            if event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE:
+                return
+
+            if event.type == pygame.QUIT:
+                return
+
         # Draw the home screen
         draw_sudoku_folder_home_screen()
 

@@ -53,6 +53,12 @@ def home_screen_main():
                 if text_rect_sudoku.collidepoint(mouse_pos):
                     launch_sudoku_game()
 
+            if event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE:
+                return
+
+            if event.type == pygame.QUIT:
+                return
+
         # Draw the home screen
         draw_home_screen()
 

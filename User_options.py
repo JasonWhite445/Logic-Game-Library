@@ -60,6 +60,12 @@ def user_options_main():
                 if text_rect_manual.collidepoint(mouse_pos):
                     option_screen()
 
+            if event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE:
+                return
+
+            if event.type == pygame.QUIT:
+                return
+
         draw_user_screen_options()
 
         pygame.display.flip()
