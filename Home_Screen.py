@@ -52,7 +52,6 @@ while running:
             mouse_pos = pygame.mouse.get_pos()
             if text_rect9x9.collidepoint(mouse_pos):
                 launch_sudoku_game()
-
     # Draw the home screen
     draw_home_screen()
 
