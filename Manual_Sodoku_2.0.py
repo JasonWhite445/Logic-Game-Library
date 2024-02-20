@@ -1,24 +1,30 @@
+import sys
+import sudoku_game9x9
 import pygame
 import time
 
-
 WIDTH = 550
+HEIGHT = 550
 background_color = (255, 255, 255)
 original_grid_element_color = (91, 114, 138)
 buffer = 5
-timer_on = True
+timer_on = False
+WHITE = (255, 255, 255)
+BLACK = (0, 0, 0)
+BLUE = (217, 247, 250)
+
+# Create font objects
 
 # input will eventually come from make_random_board function
-grid = [[]]
-    # [[0, 2, 7, 1, 5, 4, 3, 9, 6],
-    #     [9, 6, 5, 3, 2, 7, 1, 4, 8],
-    #     [3, 4, 1, 6, 8, 9, 7, 5, 2],
-    #     [5, 9, 3, 0, 6, 8, 2, 7, 1],
-    #     [4, 7, 2, 5, 1, 3, 6, 8, 9],
-    #     [6, 1, 8, 9, 7, 2, 4, 3, 5],
-    #     [7, 8, 6, 2, 3, 5, 9, 1, 4],
-    #     [1, 5, 4, 7, 9, 6, 8, 2, 3],
-    #     [2, 3, 9, 8, 4, 1, 5, 6, 0]]
+grid = [[0, 0, 0, 0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0, 0, 0, 0]]
 
 
 grid_original = [[grid[x][y] for y in range(len(grid[0]))] for x in range(len(grid))]
@@ -91,18 +97,35 @@ def insert(win, position):
 
 
 # prints board for debugging
+
 def print_grid(grid):
     for row in grid:
         print(row)
     print("\n")
 
 
-def sudoku_9x9_main():
+
+
+
+
+def sudoku_manual_main():
     pygame.init()
     win = pygame.display.set_mode((WIDTH, WIDTH))
-    pygame.display.set_caption("Sudoku")
+    pygame.display.set_caption("Manual Sodoku")
     win.fill(background_color)
     myfont = pygame.font.SysFont('Comic Sans MS', 35)
+
+    text_finished = myfont.render("Done", True, BLACK)
+
+    text_rect_done = text_finished.get_rect(center=(WIDTH // 2 + 200, HEIGHT // 2 - 250))
+    win.blit(text_finished, text_rect_done)
+    pygame.draw.rect(win, BLACK, text_rect_done, 1)
+
+    def send_manual_grid():
+        win.blit(text_finished, text_rect_done)
+        pygame.draw.rect(win, BLACK, text_rect_done, 1)
+        sudoku_game9x9.sudoku_9x9_main()
+        sudoku_game9x9.grid = grid
 
     # Initialize timer
     start_time = time.time()
@@ -152,6 +175,15 @@ def sudoku_9x9_main():
                 if (((pos[0] // 50) >= 1) and ((pos[0] // 50) <= 9)) and (((pos[1] // 50) >= 1) and ((pos[1] // 50) <= 9)):
                     insert(win, (pos[0] // 50, pos[1] // 50))
 
+                if event.type == pygame.QUIT:
+                    running = False
+                    pygame.quit()
+                    sys.exit()
+                elif event.type == pygame.MOUSEBUTTONUP:
+                    mouse_pos = pygame.mouse.get_pos()
+                    if text_rect_done.collidepoint(mouse_pos):
+                        send_manual_grid()
+
             if event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE:
                 return
 
@@ -159,5 +191,11 @@ def sudoku_9x9_main():
                 return
         pygame.display.update()
 
+sudoku_manual_main()
 
-# sudoku_9x9_main()
+
+
+
+
+
+
