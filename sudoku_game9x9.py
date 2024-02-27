@@ -8,7 +8,7 @@ buffer = 5
 timer_on = True
 
 # input will eventually come from make_random_board function
-grid = [[0, 2, 7, 1, 5, 4, 3, 9, 6],
+grid = [[8, 2, 7, 1, 5, 4, 3, 9, 6],
         [9, 6, 5, 3, 2, 7, 1, 4, 8],
         [3, 4, 1, 6, 8, 9, 7, 5, 2],
         [5, 9, 3, 0, 6, 8, 2, 7, 1],
@@ -16,7 +16,7 @@ grid = [[0, 2, 7, 1, 5, 4, 3, 9, 6],
         [6, 1, 8, 9, 7, 2, 4, 3, 5],
         [7, 8, 6, 2, 3, 5, 9, 1, 4],
         [1, 5, 4, 7, 9, 6, 8, 2, 3],
-        [2, 3, 9, 8, 4, 1, 5, 6, 0]]
+        [2, 3, 9, 8, 4, 1, 5, 6, 7]]
 
 
 grid_original = [[grid[x][y] for y in range(len(grid[0]))] for x in range(len(grid))]
