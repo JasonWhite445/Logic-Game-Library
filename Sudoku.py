@@ -18,13 +18,7 @@ def board_checker(board):
     :param board: Completed sudoku in the form of an array
     :return: False if any row/column/box has a duplicate value, True otherwise
     """
-    size = len(board)
-    if int(size**(1/2)) == size**(1/2):
-        # For boards of size 4x4 and 9x9
-        row_size, col_size = int(size**(1/2)), int(size**(1/2))
-    else:
-        # For boards of size 6x6 and 8x8
-        row_size, col_size = 2, int(size/2)
+    col_size, row_size, size = characteristics(board)
     numbers = [i for i in range(1, size+1)]
     for row in range(size):  # Checks if rows are valid
         if sorted(board[row]) != numbers:
@@ -61,13 +55,7 @@ def check_usable(board, row, col):
     :param col: Column index of value being checked
     :return: List of usable numbers for that position
     """
-    size = len(board)
-    if int(size ** (1 / 2)) == size ** (1 / 2):
-        # For boards of size 4x4 and 9x9
-        row_size, col_size = int(size ** (1 / 2)), int(size ** (1/2))
-    else:
-        # For boards of size 6x6 and 8x8
-        row_size, col_size = 2, int(size / 2)
+    col_size, row_size, size = characteristics(board)
     box = row_size * (row // row_size) + (col // col_size)
     box_nums = []
     for pos in range(size):
@@ -79,6 +67,16 @@ def check_usable(board, row, col):
     box_nums = [i for i in box_nums if i != 0]  # List of numbers in the box
     used = list(set(box_nums + row_nums + col_nums))  # List of numbers the position can't be
     return [n for n in [i for i in range(1, size+1)] if n not in used]
+
+def characteristics(board):
+    size = len(board)
+    if int(size ** (1 / 2)) == size ** (1 / 2):
+        # For boards of size 4x4 and 9x9
+        row_size, col_size = int(size ** (1 / 2)), int(size ** (1 / 2))
+    else:
+        # For boards of size 6x6 and 8x8
+        row_size, col_size = 2, int(size / 2)
+    return col_size, row_size, size
 
 def fill_board(board):
     """
@@ -143,6 +141,7 @@ def difficulty_sum(board):
 
 def remove_numbers(board, difficulty):
     # Easy, Medium, and Hard values are based off of test cases
+    # Need to make this code more efficient
     size = len(board)
     if difficulty.lower()[0] == "e":
         difficulty = int((size ** 3) * .24)
