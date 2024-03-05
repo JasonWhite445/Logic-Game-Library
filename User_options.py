@@ -1,6 +1,7 @@
 import sys
 import sudoku_game9x9
 import pygame
+import Sudoku
 
 
 def user_options_main():
@@ -22,13 +23,13 @@ def user_options_main():
     # Create font objects
     font = pygame.font.SysFont('Comic Sans MS', 50)
 
-    text_surface_easy = font.render("Easy", True, GRAY)
+    text_surface_easy = font.render("Easy", True, BLACK)
     text_rect_easy = text_surface_easy.get_rect(center=(WIDTH//2, HEIGHT//2 - 200))
 
-    text_surface_medium = font.render("Medium", True, GRAY)
+    text_surface_medium = font.render("Medium", True, BLACK)
     text_rect_medium = text_surface_medium.get_rect(center=(WIDTH//2, HEIGHT//2-100))
 
-    text_surface_hard = font.render("Hard", True, GRAY)
+    text_surface_hard = font.render("Hard", True, BLACK)
     text_rect_hard = text_surface_hard.get_rect(center=(WIDTH//2, HEIGHT//2))
 
     text_surface_manual = font.render("Manual", True, BLACK)
@@ -58,7 +59,17 @@ def user_options_main():
                 sys.exit()
             elif event.type == pygame.MOUSEBUTTONUP:
                 mouse_pos = pygame.mouse.get_pos()
+                if text_rect_easy.collidepoint(mouse_pos):
+                    sudoku_game9x9.grid = Sudoku.generate_easy_board()
+                    option_screen()
+                if text_rect_medium.collidepoint(mouse_pos):
+                    sudoku_game9x9.grid = Sudoku.generate_medium_board()
+                    option_screen()
+                if text_rect_hard.collidepoint(mouse_pos):
+                    sudoku_game9x9.grid = Sudoku.generate_hard_board()
+                    option_screen()
                 if text_rect_manual.collidepoint(mouse_pos):
+                    sudoku_game9x9.grid = Sudoku.generate_empty_board()
                     option_screen()
 
             if event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE:
