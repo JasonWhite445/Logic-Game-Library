@@ -2,6 +2,7 @@ import sys
 import sudoku_game9x9
 import pygame
 import Sudoku
+import Sudoku_Generator
 
 
 def user_options_main():
@@ -60,16 +61,16 @@ def user_options_main():
             elif event.type == pygame.MOUSEBUTTONUP:
                 mouse_pos = pygame.mouse.get_pos()
                 if text_rect_easy.collidepoint(mouse_pos):
-                    sudoku_game9x9.grid = Sudoku.generate_easy_board()
+                    sudoku_game9x9.grid = Sudoku_Generator.__main__(9, "easy")[0]
                     option_screen()
                 if text_rect_medium.collidepoint(mouse_pos):
-                    sudoku_game9x9.grid = Sudoku.generate_medium_board()
+                    sudoku_game9x9.grid = Sudoku_Generator.__main__(9, "medium")[0]
                     option_screen()
                 if text_rect_hard.collidepoint(mouse_pos):
-                    sudoku_game9x9.grid = Sudoku.generate_hard_board()
+                    sudoku_game9x9.grid = Sudoku_Generator.__main__(9, "hard")[0]
                     option_screen()
                 if text_rect_manual.collidepoint(mouse_pos):
-                    sudoku_game9x9.grid = Sudoku.generate_empty_board()
+                    sudoku_game9x9.grid = [[0 for _ in range(9)] for _ in range(9)]
                     option_screen()
 
             if event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE:
