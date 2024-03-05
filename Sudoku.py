@@ -161,13 +161,41 @@ def remove_numbers(board, difficulty):
     return board
 
 
-# Takes user input to adjust size/difficulty of sudoku board - N needs to be a square number
-dimension = int(input("What size sudoku would you like to try? Enter in form NxN: ").partition('x')[0])
-level = input("What difficulty would you like to try? Easy, Medium, or Hard: ")
-# Chunk below creates a board full of 0s then randomly creates a solved board
-random_solvable_board = remove_numbers(fill_board([[0 for _ in range(dimension)] for _ in range(dimension)]), level)
+def generate_easy_board():
+    solvable_board = remove_numbers(fill_board([[0 for _ in range(9)] for _ in range(9)]), "Easy")
+    return solvable_board
 
-board_reader(random_solvable_board)
+
+def generate_medium_board():
+    solvable_board = remove_numbers(fill_board([[0 for _ in range(9)] for _ in range(9)]), "Medium")
+    return solvable_board
+
+
+def generate_hard_board():
+    solvable_board = remove_numbers(fill_board([[0 for _ in range(9)] for _ in range(9)]), "Hard")
+    return solvable_board
+
+
+def generate_empty_board():
+    solvable_board = \
+        [[0, 0, 0, 0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0, 0, 0, 0]]
+    return solvable_board
+
+# Takes user input to adjust size/difficulty of sudoku board - N needs to be a square number
+# dimension = int(input("What size sudoku would you like to try? Enter in form NxN: ").partition('x')[0])
+# level = input("What difficulty would you like to try? Easy, Medium, or Hard: ")
+# # Chunk below creates a board full of 0s then randomly creates a solved board
+# random_solvable_board = remove_numbers(fill_board([[0 for _ in range(dimension)] for _ in range(dimension)]), level)
+# board_reader(random_solvable_board)
+
 
 one_solution_test = [[8, 0, 4, 9, 0, 3, 0, 7, 1],
                      [6, 3, 5, 8, 0, 7, 0, 2, 4],
