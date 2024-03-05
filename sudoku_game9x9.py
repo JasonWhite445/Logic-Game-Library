@@ -4,10 +4,12 @@ import time
 import Sudoku
 
 WIDTH = 550
+HEIGHT = 550
 background_color = (255, 255, 255)
 original_grid_element_color = (91, 114, 138)
 buffer = 5
 timer_on = True
+BLACK = (0, 0, 0)
 
 # input will eventually come from make_random_board function
 # grid = Sudoku.generate_hard_board()
@@ -24,6 +26,8 @@ grid = [[0, 0, 0, 0, 0, 0, 0, 0, 0],
 
 
 grid_original = [[grid[x][y] for y in range(len(grid[0]))] for x in range(len(grid))]
+
+
 
 
 # Check if the board is a valid solution
@@ -105,6 +109,24 @@ def sudoku_9x9_main():
     pygame.display.set_caption("Sudoku")
     win.fill(background_color)
     myfont = pygame.font.SysFont('Comic Sans MS', 35)
+
+    difficulty = Sudoku.difficulty_sum(grid)
+
+    difficulty_sum = round(difficulty / 729, 2)
+    print(difficulty_sum)
+
+    if difficulty_sum <= .25:
+        level = "easy"
+    elif .38 > difficulty_sum > .25:
+        level = "medium"
+    else:
+        level = "hard"
+
+    difficulty_level = myfont.render("Your difficuly level is: " + level, True, BLACK)
+
+    difficulty_rect_done = difficulty_level.get_rect(center=(WIDTH // 2 - 50, HEIGHT // 2 - 250))
+    win.blit(difficulty_level, difficulty_rect_done)
+    pygame.draw.rect(win, BLACK, difficulty_rect_done, 1)
 
     # Initialize timer
     start_time = time.time()

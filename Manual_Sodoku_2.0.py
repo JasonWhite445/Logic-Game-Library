@@ -2,6 +2,7 @@ import sys
 import sudoku_game9x9
 import pygame
 import time
+import Sudoku
 
 WIDTH = 550
 HEIGHT = 550
@@ -124,8 +125,9 @@ def sudoku_manual_main():
     def send_manual_grid():
         win.blit(text_finished, text_rect_done)
         pygame.draw.rect(win, BLACK, text_rect_done, 1)
-        sudoku_game9x9.sudoku_9x9_main()
         sudoku_game9x9.grid = grid
+        sudoku_game9x9.sudoku_9x9_main()
+
 
     # Initialize timer
     start_time = time.time()
