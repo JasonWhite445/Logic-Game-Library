@@ -1,7 +1,7 @@
 import sys
 import sudoku_game9x9
 import pygame
-import Sudoku
+import Manual_Sodoku_2
 import Sudoku_Generator
 
 
@@ -70,8 +70,9 @@ def user_options_main():
                     sudoku_game9x9.grid = Sudoku_Generator.__main__(9, "hard")[0]
                     option_screen()
                 if text_rect_manual.collidepoint(mouse_pos):
-                    sudoku_game9x9.grid = [[0 for _ in range(9)] for _ in range(9)]
-                    option_screen()
+                    Manual_Sodoku_2.grid = [[0 for _ in range(9)] for _ in range(9)]
+                    draw_user_screen_options()
+                    Manual_Sodoku_2.sudoku_manual_main()
 
             if event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE:
                 return

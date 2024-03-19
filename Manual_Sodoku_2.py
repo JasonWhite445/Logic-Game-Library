@@ -193,7 +193,7 @@ def sudoku_manual_main():
                 return
         pygame.display.update()
 
-sudoku_manual_main()
+# sudoku_manual_main()
 
 
 
