@@ -117,16 +117,23 @@ def sudoku_9x9_main():
 
     if difficulty_sum <= .25:
         level = "easy"
+        difficulty_level = myfont.render("difficuly: " + level, True, BLACK)
+        difficulty_rect_done = difficulty_level.get_rect(center=(WIDTH // 2 - 50, HEIGHT // 2 - 250))
+        win.blit(difficulty_level, difficulty_rect_done)
     elif .38 > difficulty_sum > .25:
         level = "medium"
-    else:
+        difficulty_level = myfont.render("difficuly: " + level, True, BLACK)
+        difficulty_rect_done = difficulty_level.get_rect(center=(WIDTH // 2 - 50, HEIGHT // 2 - 250))
+        win.blit(difficulty_level, difficulty_rect_done)
+    elif 1 > difficulty_sum >= .38:
         level = "hard"
+        difficulty_level = myfont.render("difficuly: " + level, True, BLACK)
+        difficulty_rect_done = difficulty_level.get_rect(center=(WIDTH // 2 - 50, HEIGHT // 2 - 250))
+        win.blit(difficulty_level, difficulty_rect_done)
+    else:
+        pass
 
-    difficulty_level = myfont.render("Your difficuly level is: " + level, True, BLACK)
-
-    difficulty_rect_done = difficulty_level.get_rect(center=(WIDTH // 2 - 50, HEIGHT // 2 - 250))
-    win.blit(difficulty_level, difficulty_rect_done)
-    pygame.draw.rect(win, BLACK, difficulty_rect_done, 1)
+    #pygame.draw.rect(win, BLACK, difficulty_rect_done, 1)
 
     # Initialize timer
     start_time = time.time()
