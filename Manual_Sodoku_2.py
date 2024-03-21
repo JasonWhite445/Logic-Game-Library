@@ -45,8 +45,8 @@ def board_checker(board):
     return True
 
 
-def highlight_cell(win, position):
-    pygame.draw.rect(win, (255, 0, 0), (
+def highlight_cell(win, position, color):
+    pygame.draw.rect(win, color, (
         position[0] * 50 + buffer, position[1] * 50 + buffer, 50 - 2 * buffer, 50 - 2 * buffer), 3)
     pygame.display.update()
 
@@ -94,6 +94,8 @@ def insert(win, position):
                     if board_checker(grid):
                         launch_win_screen(win)
                     return
+                else:
+                    highlight_cell(win, position, (255, 255, 255))
                 return
 
 
@@ -171,7 +173,7 @@ def sudoku_manual_main():
                 selected_cell = (pos[0] // 50, pos[1] // 50)  # Update selected cell position
                 if (((pos[0] // 50) >= 1) and ((pos[0] // 50) <= 9)) and (((pos[1] // 50) >= 1) and ((pos[1] // 50) <= 9)):
                     if grid_original[selected_cell[1] - 1][selected_cell[0] - 1] == 0:  # Check if cell is empty
-                        highlight_cell(win, selected_cell)
+                        highlight_cell(win, selected_cell, (255, 0, 0))
 
                 # Ensures insert is in range of the grid
                 if (((pos[0] // 50) >= 1) and ((pos[0] // 50) <= 9)) and (((pos[1] // 50) >= 1) and ((pos[1] // 50) <= 9)):
