@@ -14,21 +14,7 @@ BLACK = (0, 0, 0)
 # input will eventually come from make_random_board function
 # grid = Sudoku.generate_hard_board()
 
-grid = [[0, 0, 0, 0, 0, 0, 0, 0, 0],
-        [0, 0, 0, 0, 0, 0, 0, 0, 0],
-        [0, 0, 0, 0, 0, 0, 0, 0, 0],
-        [0, 0, 0, 0, 0, 0, 0, 0, 0],
-        [0, 0, 0, 0, 0, 0, 0, 0, 0],
-        [0, 0, 0, 0, 0, 0, 0, 0, 0],
-        [0, 0, 0, 0, 0, 0, 0, 0, 0],
-        [0, 0, 0, 0, 0, 0, 0, 0, 0],
-        [0, 0, 0, 0, 0, 0, 0, 0, 0]]
-
-
-grid_original = [[grid[x][y] for y in range(len(grid[0]))] for x in range(len(grid))]
-
-
-
+grid = None
 
 # Check if the board is a valid solution
 def board_checker(board):
@@ -70,7 +56,7 @@ def insert(win, position):
             if event.type == pygame.QUIT:
                 return
             if event.type == pygame.KEYDOWN:
-                if grid_original[i - 1][j - 1] != 0:
+                if grid[i - 1][j - 1] != 0:
                     return
                 if event.key == 48:  # checking if space is 0, will return blank
                     grid[i - 1][j - 1] = event.key - 48
@@ -96,6 +82,14 @@ def insert(win, position):
                 return
 
 
+def get_given_indexes(board):
+    indexes = []
+    for y, row in enumerate(board):
+        for x, i in enumerate(row):
+            if i != 0:
+                indexes.append((x+1, y+1))
+    return indexes
+
 # prints board for debugging
 def print_grid(grid):
     for row in grid:
@@ -104,6 +98,7 @@ def print_grid(grid):
 
 
 def sudoku_9x9_main():
+    grid_given = get_given_indexes(grid)
     pygame.init()
     win = pygame.display.set_mode((WIDTH, WIDTH))
     pygame.display.set_caption("Sudoku")
@@ -176,9 +171,8 @@ def sudoku_9x9_main():
                 print(pos[0] // 50, pos[1] // 50)   # prints position for debugging
                 selected_cell = (pos[0] // 50, pos[1] // 50)  # Update selected cell position
                 if (((pos[0] // 50) >= 1) and ((pos[0] // 50) <= 9)) and (((pos[1] // 50) >= 1) and ((pos[1] // 50) <= 9)):
-                    if grid_original[selected_cell[1] - 1][selected_cell[0] - 1] == 0:  # Check if cell is empty
+                    if selected_cell not in grid_given:
                         highlight_cell(win, selected_cell)
-
                 # Ensures insert is in range of the grid
                 if (((pos[0] // 50) >= 1) and ((pos[0] // 50) <= 9)) and (((pos[1] // 50) >= 1) and ((pos[1] // 50) <= 9)):
                     insert(win, (pos[0] // 50, pos[1] // 50))
