@@ -107,26 +107,27 @@ def sudoku_9x9_main():
     pygame.display.set_caption("Sudoku")
     win.fill(background_color)
     myfont = pygame.font.SysFont('Comic Sans MS', 35)
-
+    myfontsmall = pygame.font.SysFont('Comic Sans MS', 25)
+    bottomright = (WIDTH // 2 + 145, HEIGHT // 2 + 250)
     difficulty = Sudoku.difficulty_sum(grid)
 
     difficulty_sum = round(difficulty / 729, 2)
     print(difficulty_sum)
 
     if difficulty_sum <= .25:
-        level = "easy"
-        difficulty_level = myfont.render("difficuly: " + level, True, BLACK)
-        difficulty_rect_done = difficulty_level.get_rect(center=(WIDTH // 2 - 50, HEIGHT // 2 - 250))
+        level = "Easy"
+        difficulty_level = myfontsmall.render("Difficulty: " + level, True, BLACK)
+        difficulty_rect_done = difficulty_level.get_rect(center=bottomright)
         win.blit(difficulty_level, difficulty_rect_done)
     elif .38 > difficulty_sum > .25:
-        level = "medium"
-        difficulty_level = myfont.render("difficuly: " + level, True, BLACK)
-        difficulty_rect_done = difficulty_level.get_rect(center=(WIDTH // 2 - 50, HEIGHT // 2 - 250))
+        level = "Medium"
+        difficulty_level = myfontsmall.render("Difficulty: " + level, True, BLACK)
+        difficulty_rect_done = difficulty_level.get_rect(center=bottomright)
         win.blit(difficulty_level, difficulty_rect_done)
     elif 1 > difficulty_sum >= .38:
-        level = "hard"
-        difficulty_level = myfont.render("difficuly: " + level, True, BLACK)
-        difficulty_rect_done = difficulty_level.get_rect(center=(WIDTH // 2 - 50, HEIGHT // 2 - 250))
+        level = "Hard"
+        difficulty_level = myfontsmall.render("Difficulty: " + level, True, BLACK)
+        difficulty_rect_done = difficulty_level.get_rect(center=bottomright)
         win.blit(difficulty_level, difficulty_rect_done)
     else:
         pass
