@@ -53,7 +53,11 @@ def sudoku_folder_main():
             elif event.type == pygame.MOUSEBUTTONUP:
                 mouse_pos = pygame.mouse.get_pos()
                 if text_rect9x9.collidepoint(mouse_pos):
+                    User_options.size = 9
                     launch_sudoku_folder_game()             # different
+                if text_rect12x12.collidepoint(mouse_pos):
+                    User_options.size = 6
+                    launch_sudoku_folder_game()
 
             if event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE:
                 return

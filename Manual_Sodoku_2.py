@@ -73,8 +73,8 @@ def insert(win, position):
             if event.type == pygame.KEYDOWN:
                 if grid_original[i - 1][j - 1] != 0:
                     return
-                if event.key == 48:  # checking if space is 0, will return blank
-                    grid[i - 1][j - 1] = event.key - 48
+                if event.key == 48 or event.key == 8:  # checking if space is 0, will return blank
+                    grid[i - 1][j - 1] = 0
                     pygame.draw.rect(win, background_color, (
                         position[0] * 50 + buffer, position[1] * 50 + buffer, 50 - 2 * buffer, 50 - 2 * buffer))
                     pygame.display.update()
