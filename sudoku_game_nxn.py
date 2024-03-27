@@ -51,8 +51,11 @@ def highlight_cell(win, position, color):
 def launch_win_screen(win):
     win.fill(background_color)
     font = pygame.font.SysFont('Comic Sans MS', 40)
-    text = font.render('You Win!', True, (0, 0, 255))
-    win.blit(text, (50, 250))
+    image = pygame.image.load('ThumbGuy.jpg')
+    text = font.render('You Win!', True, (0, 0, 0))
+
+    win.blit(text, (50, 50))
+    win.blit(image, (50, 250))
     global timer_on
     timer_on = False
     pygame.display.update()
@@ -177,7 +180,7 @@ def sudoku_nxn_main():
 
             # Clear previous timer text
             pygame.draw.rect(win, background_color,
-                             (25*size, 0, 25 * (size + 2), 40))
+                             (25*size, 0, 25 * (size + 2), 42))
 
             # Display timer
             timer_text = myfont.render(f"Time: {elapsed_time:.0f}", True, (0, 0, 0))
