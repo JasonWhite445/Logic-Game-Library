@@ -110,6 +110,25 @@ def difficulty_sum(board):
     return total
 
 
+def fill_board(board):
+    """
+    Fills a sudoku board of size N
+    :param board: Recursively inputs itself to replace all 0's
+    :return: Completed sudoku in the form of an array
+    """
+    if not empty_spot(board):
+        return board
+    i_row, i_col = empty_spot(board)  # Gets index of first 0
+    usable = check_usable(board, i_row, i_col)  # List of usable numbers for the position
+    random.shuffle(usable)  # Adds randomness to the board completion
+    for num in usable:
+        board[i_row][i_col] = num
+        if fill_board(board):
+            # Recursion step - will get called if that number results in a full board
+            return board
+        board[i_row][i_col] = 0  # Backtrack
+
+
 # Takes user input to adjust size/difficulty of sudoku board - N needs to be a square number
 # dimension = int(input("What size sudoku would you like to try? Enter in form NxN: ").partition('x')[0])
 # level = input("What difficulty would you like to try? Easy, Medium, or Hard: ")

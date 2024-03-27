@@ -1,11 +1,10 @@
 import sys
-import sudoku_game9x9
 import sudoku_game_nxn
 import pygame
-import time
 import Sudoku
 
 grid = None
+solver = False
 WIDTH = 550
 HEIGHT = 550
 background_color = (255, 255, 255)
@@ -21,15 +20,19 @@ BLUE = (217, 247, 250)
 # Check if the board is a valid solution
 def board_checker(board):
     width, height, size = characteristics(board)
-    numbers = [i+1 for i in range(size)]
+    # numbers = [i+1 for i in range(size)]
     for row in range(size):
-        if sorted(board[row]) != numbers:
+        full_row = [i for i in board[row] if i != 0]
+        if sorted(full_row) != list(set(full_row)):
             return False
     for col in range(size):
-        if sorted([board[i][col] for i in range(size)]) != numbers:
+        full_column = [board[i][col] for i in range(size) if board[i][col] != 0]
+        if sorted(full_column) != list(set(full_column)):
             return False
     for box in range(size):
-        if sorted([board[pos // width + box // height * height][pos % width + box % height * width] for pos in range(size)]) != numbers:
+        full_box = [board[pos // width + box // height * height][pos % width + box % height * width] for pos in range(size)
+                    if board[pos // width + box // height * height][pos % width + box % height * width] != 0]
+        if sorted(full_box) != list(set(full_box)):
             return False
     return True
 
@@ -99,18 +102,29 @@ def sudoku_manual_main():
     myfont = pygame.font.SysFont('Comic Sans MS', 35)
 
     text_finished = myfont.render("Done", True, BLACK)
-    print(text_finished)
 
     text_rect_done = text_finished.get_rect(center=(((size + 2)*25), 25))
-    print(text_rect_done)
     win.blit(text_finished, text_rect_done)
     pygame.draw.rect(win, BLACK, text_rect_done, 1)
 
     def send_manual_grid():
-        win.blit(text_finished, text_rect_done)
-        pygame.draw.rect(win, BLACK, text_rect_done, 1)
-        sudoku_game_nxn.grid = grid
-        sudoku_game_nxn.sudoku_nxn_main()
+        if solver:
+            if board_checker(grid):
+                solution = Sudoku.fill_board(grid)
+                for i in range(0, size):
+                    for j in range(0, size):
+                        if 0 < solution[i][j] < size + 1:
+                            value = myfont.render(str(solution[i][j]), True, original_grid_element_color)
+                            win.blit(value, ((j + 1) * 50 + 15, (i + 1) * 50))
+                pygame.display.update()
+            else:
+                pass
+        else:
+            win.blit(text_finished, text_rect_done)
+            pygame.draw.rect(win, BLACK, text_rect_done, 1)
+            sudoku_game_nxn.grid = grid
+            sudoku_game_nxn.sudoku_nxn_main()
+
 
     # https://www.pygame.org/docs/ref/draw.html
     # Drawing gridlines
@@ -137,7 +151,7 @@ def sudoku_manual_main():
         for event in pygame.event.get():
             if event.type == pygame.MOUSEBUTTONUP and event.button == 1:
                 pos = pygame.mouse.get_pos()
-                print(pos[0] // 50, pos[1] // 50)   # prints position for debugging
+                # print(pos[0] // 50, pos[1] // 50)   # prints position for debugging
                 selected_cell = (pos[0] // 50, pos[1] // 50)  # Update selected cell position
 
                 # Ensures insert is in range of the grid

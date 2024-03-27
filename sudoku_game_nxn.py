@@ -123,7 +123,7 @@ def sudoku_nxn_main():
     bottomright = ((25 * (size + 2)), (25 * (size + 2)) + 25*(size) + 25)
     difficulty = Sudoku.difficulty_sum(grid)
 
-    difficulty_sum = round(difficulty / 729, 2)
+    difficulty_sum = round(difficulty / (size**3), 2)
     print(difficulty_sum)
 
     if difficulty_sum <= .25:

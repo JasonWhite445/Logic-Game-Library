@@ -1,7 +1,7 @@
 import sys
 import sudoku_game9x9
 import pygame
-import Manual_Sodoku_2
+import sudoku_input
 import Sudoku_Generator
 import sudoku_game_nxn
 
@@ -34,8 +34,11 @@ def user_options_main():
     text_surface_hard = font.render("Hard", True, BLACK)
     text_rect_hard = text_surface_hard.get_rect(center=(WIDTH//2, HEIGHT//2))
 
+    text_surface_solver = font.render("Solver", True, BLACK)
+    text_rect_solver = text_surface_solver.get_rect(center=(WIDTH//2, HEIGHT//2+100))
+
     text_surface_manual = font.render("Manual", True, BLACK)
-    text_rect_manual = text_surface_manual.get_rect(center=(WIDTH//2, HEIGHT//2+100))
+    text_rect_manual = text_surface_manual.get_rect(center=(WIDTH//2, HEIGHT//2+200))
 
     def draw_user_screen_options():
         screen.fill(BLUE)
@@ -45,6 +48,8 @@ def user_options_main():
         screen.blit(text_surface_medium, text_rect_medium)
         pygame.draw.rect(screen, BLACK, text_rect_hard, 1)
         screen.blit(text_surface_hard, text_rect_hard)
+        pygame.draw.rect(screen, BLACK, text_rect_solver, 1)
+        screen.blit(text_surface_solver, text_rect_solver)
         pygame.draw.rect(screen, BLACK, text_rect_manual, 1)
         screen.blit(text_surface_manual, text_rect_manual)
 
@@ -53,7 +58,7 @@ def user_options_main():
         # draw_user_screen_options()
         # sudoku_game9x9.sudoku_9x9_main()
         if user_input:
-            Manual_Sodoku_2.sudoku_manual_main()
+            sudoku_input.sudoku_manual_main()
         else:
             sudoku_game_nxn.sudoku_nxn_main()
         WIDTH, HEIGHT = 550, 550
@@ -79,8 +84,13 @@ def user_options_main():
                 if text_rect_hard.collidepoint(mouse_pos):
                     sudoku_game_nxn.grid = Sudoku_Generator.__main__(size, "hard")[0]
                     option_screen(False)
+                if text_rect_solver.collidepoint(mouse_pos):
+                    sudoku_input.grid = [[0 for _ in range(size)] for _ in range(size)]
+                    sudoku_input.solver = True
+                    option_screen(True)
                 if text_rect_manual.collidepoint(mouse_pos):
-                    Manual_Sodoku_2.grid = [[0 for _ in range(size)] for _ in range(size)]
+                    sudoku_input.grid = [[0 for _ in range(size)] for _ in range(size)]
+                    sudoku_input.solver = False
                     option_screen(True)
 
 
