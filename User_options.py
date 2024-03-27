@@ -48,10 +48,14 @@ def user_options_main():
         pygame.draw.rect(screen, BLACK, text_rect_manual, 1)
         screen.blit(text_surface_manual, text_rect_manual)
 
-    def option_screen():
-        draw_user_screen_options()
+
+    def option_screen(user_input):
+        # draw_user_screen_options()
         # sudoku_game9x9.sudoku_9x9_main()
-        sudoku_game_nxn.sudoku_nxn_main()
+        if user_input:
+            Manual_Sodoku_2.sudoku_manual_main()
+        else:
+            sudoku_game_nxn.sudoku_nxn_main()
         WIDTH, HEIGHT = 550, 550
         screen = pygame.display.set_mode((WIDTH, HEIGHT))
 
@@ -68,17 +72,17 @@ def user_options_main():
                 if text_rect_easy.collidepoint(mouse_pos):
                     # sudoku_game9x9.grid = Sudoku_Generator.__main__(9, "easy")[0]
                     sudoku_game_nxn.grid = Sudoku_Generator.__main__(size, "easy")[0]
-                    option_screen()
+                    option_screen(False)
                 if text_rect_medium.collidepoint(mouse_pos):
-                    sudoku_game_nxn.grid = Sudoku_Generator.__main__(9, "medium")[0]
-                    option_screen()
+                    sudoku_game_nxn.grid = Sudoku_Generator.__main__(size, "medium")[0]
+                    option_screen(False)
                 if text_rect_hard.collidepoint(mouse_pos):
-                    sudoku_game_nxn.grid = Sudoku_Generator.__main__(9, "hard")[0]
-                    option_screen()
+                    sudoku_game_nxn.grid = Sudoku_Generator.__main__(size, "hard")[0]
+                    option_screen(False)
                 if text_rect_manual.collidepoint(mouse_pos):
-                    Manual_Sodoku_2.grid = [[0 for _ in range(9)] for _ in range(9)]
-                    draw_user_screen_options()
-                    Manual_Sodoku_2.sudoku_manual_main()
+                    Manual_Sodoku_2.grid = [[0 for _ in range(size)] for _ in range(size)]
+                    option_screen(True)
+
 
             if event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE:
                 return
