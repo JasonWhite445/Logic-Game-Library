@@ -69,8 +69,8 @@ def insert(win, position, givens):
             if event.type == pygame.QUIT:
                 return
             if event.type == pygame.KEYDOWN:
-                if position in grid_given:
-                    return
+                # if position in grid_given:
+                #     return
                 if event.key == 48 or event.key == 8:  # checking if space is 0, will return blank
                     grid[i - 1][j - 1] = 0
                     pygame.draw.rect(win, background_color, (
@@ -80,7 +80,6 @@ def insert(win, position, givens):
                     if board_checker(grid):
                         launch_win_screen(win)
                     return
-
                 if 0 < event.key - 48 < len(grid) + 1:  # checking for valid input
                     pygame.draw.rect(win, background_color, (
                         position[0] * 50 + buffer, position[1] * 50 + buffer, 50 - 2 * buffer, 50 - 2 * buffer))
@@ -194,7 +193,8 @@ def sudoku_nxn_main():
                         highlight_cell(win, selected_cell, (255, 0, 0))
                 # Ensures insert is in range of the grid
                 if (((pos[0] // 50) >= 1) and ((pos[0] // 50) <= size)) and (((pos[1] // 50) >= 1) and ((pos[1] // 50) <= size)):
-                    insert(win, (pos[0] // 50, pos[1] // 50), grid_given)
+                    if selected_cell not in grid_given:
+                        insert(win, (pos[0] // 50, pos[1] // 50), grid_given)
 
             if event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE:
                 return
