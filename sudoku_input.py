@@ -1,4 +1,5 @@
 import sys
+import copy
 import sudoku_game_nxn
 import pygame
 import Sudoku
@@ -23,16 +24,16 @@ def board_checker(board):
     # numbers = [i+1 for i in range(size)]
     for row in range(size):
         full_row = [i for i in board[row] if i != 0]
-        if sorted(full_row) != list(set(full_row)):
+        if sorted(full_row) != sorted(list(set(full_row))):
             return False
     for col in range(size):
         full_column = [board[i][col] for i in range(size) if board[i][col] != 0]
-        if sorted(full_column) != list(set(full_column)):
+        if sorted(full_column) != sorted(list(set(full_column))):
             return False
     for box in range(size):
         full_box = [board[pos // width + box // height * height][pos % width + box % height * width] for pos in range(size)
                     if board[pos // width + box // height * height][pos % width + box % height * width] != 0]
-        if sorted(full_box) != list(set(full_box)):
+        if sorted(full_box) != sorted(list(set(full_box))):
             return False
     return True
 
@@ -100,6 +101,7 @@ def sudoku_manual_main():
     pygame.display.set_caption("Manual Sodoku")
     win.fill(background_color)
     myfont = pygame.font.SysFont('Comic Sans MS', 35)
+    mysmallfont = pygame.font.SysFont('Comic Sans MS', 25)
 
     text_finished = myfont.render("Done", True, BLACK)
 
@@ -110,10 +112,17 @@ def sudoku_manual_main():
     def send_manual_grid():
         if solver:
             if board_checker(grid):
-                solution = Sudoku.fill_board(grid)
+                solution = Sudoku.fill_board(copy.deepcopy(grid))
                 for i in range(0, size):
                     for j in range(0, size):
-                        if 0 < solution[i][j] < size + 1:
+                        if grid[i][j] == 0:
+                            pygame.draw.rect(win, (255, 255, 255),
+                                             ((j+1) * 50 + buffer, (i+1) * 50 + buffer,
+                                              50 - 2 * buffer, 50 - 2 * buffer), 25)
+                # Second nested loop because it acted weird when put together
+                for i in range(0, size):
+                    for j in range(0, size):
+                        if grid[i][j] == 0:
                             value = myfont.render(str(solution[i][j]), True, original_grid_element_color)
                             win.blit(value, ((j + 1) * 50 + 15, (i + 1) * 50))
                 pygame.display.update()
@@ -155,7 +164,7 @@ def sudoku_manual_main():
                 selected_cell = (pos[0] // 50, pos[1] // 50)  # Update selected cell position
 
                 # Ensures insert is in range of the grid
-                if (((pos[0] // 50) >= 1) and ((pos[0] // 50) <= 9)) and (((pos[1] // 50) >= 1) and ((pos[1] // 50) <= 9)):
+                if (((pos[0] // 50) >= 1) and ((pos[0] // 50) <= size)) and (((pos[1] // 50) >= 1) and ((pos[1] // 50) <= size)):
                     highlight_cell(win, selected_cell, (255, 0, 0))
                     insert(win, (pos[0] // 50, pos[1] // 50))
 

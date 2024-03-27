@@ -127,7 +127,7 @@ def sudoku_nxn_main():
     difficulty = Sudoku.difficulty_sum(grid)
 
     difficulty_sum = round(difficulty / (size**3), 2)
-    print(difficulty_sum)
+    # print(difficulty_sum)
 
     if difficulty_sum <= .25:
         level = "Easy"
@@ -189,7 +189,7 @@ def sudoku_nxn_main():
         for event in pygame.event.get():
             if event.type == pygame.MOUSEBUTTONUP and event.button == 1:
                 pos = pygame.mouse.get_pos()
-                print(pos[0] // 50, pos[1] // 50)   # prints position for debugging
+                # print(pos[0] // 50, pos[1] // 50)   # prints position for debugging
                 selected_cell = (pos[0] // 50, pos[1] // 50)  # Update selected cell position
                 if (((pos[0] // 50) >= 1) and ((pos[0] // 50) <= size)) and (((pos[1] // 50) >= 1) and ((pos[1] // 50) <= size)):
                     if selected_cell not in grid_given:

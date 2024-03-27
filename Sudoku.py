@@ -87,7 +87,6 @@ def number_of_solutions(board):
     """
     if not empty_spot(board):
         return 1  # If there are no empty cells, puzzle is solved
-    # Want to see the number of solutions
     i_row, i_col = empty_spot(board)
     count = 0
     usable = check_usable(board, i_row, i_col)
@@ -95,6 +94,8 @@ def number_of_solutions(board):
         board[i_row][i_col] = num
         count += number_of_solutions(board)
         board[i_row][i_col] = 0  # Backtrack
+        if count > 3:
+            return 2
     return count
 
 def difficulty_sum(board):
