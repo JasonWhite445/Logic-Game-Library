@@ -119,10 +119,6 @@ def sudoku_manual_main():
                             pygame.draw.rect(win, (255, 255, 255),
                                              ((j+1) * 50 + buffer, (i+1) * 50 + buffer,
                                               50 - 2 * buffer, 50 - 2 * buffer), 25)
-                # Second nested loop because it acted weird when put together
-                for i in range(0, size):
-                    for j in range(0, size):
-                        if grid[i][j] == 0:
                             value = myfont.render(str(solution[i][j]), True, original_grid_element_color)
                             win.blit(value, ((j + 1) * 50 + 15, (i + 1) * 50))
                 pygame.display.update()
