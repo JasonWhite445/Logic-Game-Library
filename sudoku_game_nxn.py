@@ -194,9 +194,6 @@ def sudoku_nxn_main():
                 if (((pos[0] // 50) >= 1) and ((pos[0] // 50) <= size)) and (((pos[1] // 50) >= 1) and ((pos[1] // 50) <= size)):
                     if selected_cell not in grid_given:
                         highlight_cell(win, selected_cell, (255, 0, 0))
-                # Ensures insert is in range of the grid
-                if (((pos[0] // 50) >= 1) and ((pos[0] // 50) <= size)) and (((pos[1] // 50) >= 1) and ((pos[1] // 50) <= size)):
-                    if selected_cell not in grid_given:
                         insert(win, (pos[0] // 50, pos[1] // 50), grid_given)
 
             if event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE:
