@@ -28,15 +28,15 @@ def sudoku_folder_main():
     text_rect9x9 = text_surface9x9.get_rect(center=(WIDTH//2, HEIGHT//2))
 
     # Draw "Sudoku 12x12" text in a rectangle
-    text_surface12x12 = font.render("Sudoku 12x12", True, GRAY)
-    text_rect12x12 = text_surface12x12.get_rect(center=(WIDTH//2, HEIGHT//4))
+    text_surface6x6 = font.render("Sudoku 6x6", True, BLACK)
+    text_rect6x6 = text_surface6x6.get_rect(center=(WIDTH//2, HEIGHT//4))
 
     def draw_sudoku_folder_home_screen():
         screen.fill(BLUE)
         pygame.draw.rect(screen, BLACK, text_rect9x9, 1)
         screen.blit(text_surface9x9, text_rect9x9)
-        pygame.draw.rect(screen, BLACK, text_rect12x12, 1)
-        screen.blit(text_surface12x12, text_rect12x12)
+        pygame.draw.rect(screen, BLACK, text_rect6x6, 1)
+        screen.blit(text_surface6x6, text_rect6x6)
 
     def launch_sudoku_folder_game():
         draw_sudoku_folder_home_screen()
@@ -53,7 +53,11 @@ def sudoku_folder_main():
             elif event.type == pygame.MOUSEBUTTONUP:
                 mouse_pos = pygame.mouse.get_pos()
                 if text_rect9x9.collidepoint(mouse_pos):
+                    User_options.size = 9
                     launch_sudoku_folder_game()             # different
+                if text_rect6x6.collidepoint(mouse_pos):
+                    User_options.size = 6
+                    launch_sudoku_folder_game()
 
             if event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE:
                 return
