@@ -111,19 +111,15 @@ def sudoku_manual_main():
 
     def send_manual_grid():
         if solver:
-            if board_checker(grid):
-                solution = Sudoku.fill_board(copy.deepcopy(grid))
-                for i in range(0, size):
-                    for j in range(0, size):
-                        if grid[i][j] == 0:
-                            pygame.draw.rect(win, (255, 255, 255),
-                                             ((j+1) * 50 + buffer, (i+1) * 50 + buffer,
-                                              50 - 2 * buffer, 50 - 2 * buffer), 25)
-                            value = myfont.render(str(solution[i][j]), True, original_grid_element_color)
-                            win.blit(value, ((j + 1) * 50 + 15, (i + 1) * 50))
-                pygame.display.update()
-            else:
-                pass
+            for i in range(0, size):
+                for j in range(0, size):
+                    if grid[i][j] == 0:
+                        pygame.draw.rect(win, (255, 255, 255),
+                                         ((j+1) * 50 + buffer, (i+1) * 50 + buffer,
+                                          50 - 2 * buffer, 50 - 2 * buffer), 25)
+                        value = myfont.render(str(solution[i][j]), True, original_grid_element_color)
+                        win.blit(value, ((j + 1) * 50 + 15, (i + 1) * 50))
+            pygame.display.update()
         else:
             win.blit(text_finished, text_rect_done)
             pygame.draw.rect(win, BLACK, text_rect_done, 1)
@@ -170,8 +166,10 @@ def sudoku_manual_main():
                 #     sys.exit()
                 elif event.type == pygame.MOUSEBUTTONUP:
                     mouse_pos = pygame.mouse.get_pos()
-                    if text_rect_done.collidepoint(mouse_pos):
-                        send_manual_grid()
+                    if text_rect_done.collidepoint(mouse_pos) and board_checker(grid):
+                        solution = Sudoku.fill_board(copy.deepcopy(grid))
+                        if solution:
+                            send_manual_grid()
 
             if event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE:
                 return
