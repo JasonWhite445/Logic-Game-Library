@@ -1,4 +1,3 @@
-import sys
 import copy
 import sudoku_game_nxn
 import pygame
@@ -14,6 +13,7 @@ buffer = 5
 timer_on = False
 WHITE = (255, 255, 255)
 BLACK = (0, 0, 0)
+RED = (255, 0, 0)
 BLUE = (217, 247, 250)
 
 # Create font objects
@@ -110,17 +110,17 @@ def sudoku_manual_main():
     pygame.draw.rect(win, BLACK, text_rect_done, 1)
 
     def send_manual_grid():
-        if solver:
+        if solver: # Prints a solution to the board the user input
             for i in range(0, size):
                 for j in range(0, size):
                     if grid[i][j] == 0:
                         pygame.draw.rect(win, (255, 255, 255),
                                          ((j+1) * 50 + buffer, (i+1) * 50 + buffer,
                                           50 - 2 * buffer, 50 - 2 * buffer), 25)
-                        value = myfont.render(str(solution[i][j]), True, original_grid_element_color)
-                        win.blit(value, ((j + 1) * 50 + 15, (i + 1) * 50))
+                        pos_value = myfont.render(str(solution[i][j]), False, original_grid_element_color)
+                        win.blit(pos_value, ((j + 1) * 50 + 15, (i + 1) * 50))
             pygame.display.update()
-        else:
+        else: # Sends user to screen where they can try to solve their input
             win.blit(text_finished, text_rect_done)
             pygame.draw.rect(win, BLACK, text_rect_done, 1)
             sudoku_game_nxn.grid = grid
@@ -140,13 +140,20 @@ def sudoku_manual_main():
         pygame.draw.line(win, (0, 0, 0), (50, 50 + 50 * i), (50 * (size + 1), 50 + 50 * i), 2)
     pygame.display.update()
 
-    # displaying initial grid values
-    for i in range(0, size):
-        for j in range(0, size):
-            if 0 < grid[i][j] < size + 1:
-                value = myfont.render(str(grid[i][j]), True, original_grid_element_color)
-                win.blit(value, ((j + 1) * 50 + 15, (i + 1) * 50))
-    pygame.display.update()
+    def draw_grid():
+        # displaying grid values
+        for i in range(0, size):
+            for j in range(0, size):
+                if 0 < grid[i][j] < size + 1:
+                    value = myfont.render(str(grid[i][j]), False, BLACK)
+                    win.blit(value, ((j + 1) * 50 + 15, (i + 1) * 50))
+                else:
+                    pygame.draw.rect(win, (255, 255, 255),
+                                     ((j + 1) * 50 + buffer, (i + 1) * 50 + buffer,
+                                      50 - 2 * buffer, 50 - 2 * buffer), 25)
+        pygame.draw.rect(win, background_color,
+                         (0, 50 * (size + 1) + 5, 50 * (size + 2), 42))
+        pygame.display.update()
 
     while True:
         for event in pygame.event.get():
@@ -157,19 +164,27 @@ def sudoku_manual_main():
 
                 # Ensures insert is in range of the grid
                 if (((pos[0] // 50) >= 1) and ((pos[0] // 50) <= size)) and (((pos[1] // 50) >= 1) and ((pos[1] // 50) <= size)):
+                    draw_grid()
                     highlight_cell(win, selected_cell, (255, 0, 0))
                     insert(win, (pos[0] // 50, pos[1] // 50))
 
-                # if event.type == pygame.QUIT:
-                #     running = False
-                #     pygame.quit()
-                #     sys.exit()
-                elif event.type == pygame.MOUSEBUTTONUP:
+                else:
                     mouse_pos = pygame.mouse.get_pos()
-                    if text_rect_done.collidepoint(mouse_pos) and board_checker(grid):
-                        solution = Sudoku.fill_board(copy.deepcopy(grid))
-                        if solution:
-                            send_manual_grid()
+                    if text_rect_done.collidepoint(mouse_pos):
+                        if not board_checker(grid):
+                            # Tells the user there is no solution to their board
+                            text_bad = myfont.render("No Solution", True, RED)
+                            text_rect_bad = text_finished.get_rect(center=((size * 25), (size + 1) * 50 + 25))
+                            win.blit(text_bad, text_rect_bad)
+                        else: # Ordered this way because Sudoku.fill_board can sometimes take a while
+                            solution = Sudoku.fill_board(copy.deepcopy(grid))
+                            if solution:
+                                send_manual_grid()
+                            else:
+                                # Tells the user there is no solution to their board
+                                text_bad = myfont.render("No Solution", True, RED)
+                                text_rect_bad = text_finished.get_rect(center=((size*25), (size+1)*50+25))
+                                win.blit(text_bad, text_rect_bad)
 
             if event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE:
                 return
