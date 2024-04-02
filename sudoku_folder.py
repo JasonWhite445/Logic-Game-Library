@@ -31,12 +31,23 @@ def sudoku_folder_main():
     text_surface6x6 = font.render("Sudoku 6x6", True, BLACK)
     text_rect6x6 = text_surface6x6.get_rect(center=(WIDTH//2, HEIGHT//4))
 
+    text_surface4x4 = font.render("Sudoku 4x4", True, BLACK)
+    text_rect4x4 = text_surface4x4.get_rect(center=(WIDTH//2, HEIGHT//8))
+
+    text_surface8x8 = font.render("Sudoku 8x8", True, BLACK)
+    text_rect8x8 = text_surface8x8.get_rect(center=(WIDTH // 2, HEIGHT //2.75))
+
+
     def draw_sudoku_folder_home_screen():
         screen.fill(BLUE)
         pygame.draw.rect(screen, BLACK, text_rect9x9, 1)
         screen.blit(text_surface9x9, text_rect9x9)
         pygame.draw.rect(screen, BLACK, text_rect6x6, 1)
         screen.blit(text_surface6x6, text_rect6x6)
+        pygame.draw.rect(screen, BLACK, text_rect4x4, 1)
+        screen.blit(text_surface4x4, text_rect4x4)
+        pygame.draw.rect(screen, BLACK, text_rect8x8, 1)
+        screen.blit(text_surface8x8, text_rect8x8)
 
     def launch_sudoku_folder_game():
         draw_sudoku_folder_home_screen()
@@ -57,6 +68,12 @@ def sudoku_folder_main():
                     launch_sudoku_folder_game()             # different
                 if text_rect6x6.collidepoint(mouse_pos):
                     User_options.size = 6
+                    launch_sudoku_folder_game()
+                if text_rect4x4.collidepoint(mouse_pos):
+                    User_options.size = 4
+                    launch_sudoku_folder_game()
+                if text_rect8x8.collidepoint(mouse_pos):
+                    User_options.size = 8
                     launch_sudoku_folder_game()
 
             if event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE:
