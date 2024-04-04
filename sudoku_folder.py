@@ -23,19 +23,19 @@ def sudoku_folder_main():
     # Create font objects
     font = pygame.font.SysFont('Cooper Black', 50)
 
-    # Draw "Sudoku 9x9" text in a rectangle
-    text_surface9x9 = font.render("Sudoku 9x9", True, BLACK)
-    text_rect9x9 = text_surface9x9.get_rect(center=(WIDTH//2, HEIGHT//2))
-
-    # Draw "Sudoku 12x12" text in a rectangle
-    text_surface6x6 = font.render("Sudoku 6x6", True, BLACK)
-    text_rect6x6 = text_surface6x6.get_rect(center=(WIDTH//2, HEIGHT//4))
-
     text_surface4x4 = font.render("Sudoku 4x4", True, BLACK)
     text_rect4x4 = text_surface4x4.get_rect(center=(WIDTH//2, HEIGHT//8))
 
+    # Draw "Sudoku 6x6" text in a rectangle
+    text_surface6x6 = font.render("Sudoku 6x6", True, BLACK)
+    text_rect6x6 = text_surface6x6.get_rect(center=(WIDTH//2, 3*HEIGHT//8))
+
     text_surface8x8 = font.render("Sudoku 8x8", True, BLACK)
-    text_rect8x8 = text_surface8x8.get_rect(center=(WIDTH // 2, HEIGHT //2.75))
+    text_rect8x8 = text_surface8x8.get_rect(center=(WIDTH // 2, 5*HEIGHT//8))
+
+    # Draw "Sudoku 9x9" text in a rectangle
+    text_surface9x9 = font.render("Sudoku 9x9", True, BLACK)
+    text_rect9x9 = text_surface9x9.get_rect(center=(WIDTH // 2, 7*HEIGHT//8))
 
 
     def draw_sudoku_folder_home_screen():
