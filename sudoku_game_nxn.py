@@ -51,11 +51,11 @@ def highlight_cell(win, position, color):
 def launch_win_screen(win):
     win.fill(background_color)
     font = pygame.font.SysFont('Comic Sans MS', 40)
-    image = pygame.image.load('./ThumbGuy.jpg')
+    image = pygame.image.load('./Smaller_Ean.png')
     text = font.render('You Win!', True, (0, 0, 0))
 
     win.blit(text, (10, 0))
-    win.blit(image, (10, 50))
+    win.blit(image, (20, 30))
     global timer_on
     timer_on = False
     pygame.display.update()
