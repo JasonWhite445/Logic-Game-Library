@@ -123,12 +123,13 @@ def main():
         pygame.draw.line(win, (0, 0, 0),
                          (50 + 100 * (i % size), 100 * (size + 0.25) + 50 * (i // size)),
                          (100 + 100 * (i % size), 100 * (size + 0.25) + 50 * (i // size)), 2)
+    # Drawing black squares
     for i in range(0, (size - 1)**2):
         pygame.draw.rect(win, (0, 0, 0),
                          (100 + 100 * (i // (size - 1)), 100 + 100 * (i % (size - 1)), 50, 50))
         pass
 
-    # Displaying Solution
+    # Displaying grid numbers
     for i in range(0, size):
         for j in range(0, size):
             value = myfont.render(str(grid[i][j]), True, (0, 0, 0))
@@ -145,6 +146,20 @@ def main():
             win.blit(row_op, ((j + 1.15) * 100, (i + 0.5) * 100))
             win.blit(col_op, ((i + 0.65) * 100, (j + 1) * 100))
     pygame.display.update()
+
+    # Displaying answers
+    for a in range(2*size):
+        h, f = 100 * (size + .5), 75 + 100 * (a % size)
+        print(answers[a])
+        sol = myfont.render(str(answers[a]), True, (0, 0, 0))
+        rect = sol.get_rect()
+        rect.width = 50
+        print(rect, rect.width)
+        if a < size:
+            win.blit(sol, sol.get_rect(center=(h, f)))
+        else:
+            win.blit(sol, sol.get_rect(center=(f, h)))
+        pass
 
     while True:
         for event in pygame.event.get():
