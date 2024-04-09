@@ -4,6 +4,7 @@ import time
 import Sudoku
 
 grid = None
+difficulty = None
 # WIDTH = 550
 # HEIGHT = 550
 background_color = (255, 255, 255)
@@ -124,30 +125,10 @@ def sudoku_nxn_main():
     myfont = pygame.font.SysFont('Comic Sans MS', 35)
     myfontsmall = pygame.font.SysFont('Comic Sans MS', 25)
     bottomright = ((25 * (size + 2)), (25 * (size + 2)) + 25*(size) + 25)
-    difficulty = Sudoku.difficulty_sum(grid)
 
-    difficulty_sum = round(difficulty / (size**3), 2)
-    # print(difficulty_sum)
-
-    if difficulty_sum <= .25:
-        level = "Easy"
-        difficulty_level = myfontsmall.render("Difficulty: " + level, True, BLACK)
-        difficulty_rect_done = difficulty_level.get_rect(center=bottomright)
-        win.blit(difficulty_level, difficulty_rect_done)
-    elif .38 > difficulty_sum > .25:
-        level = "Medium"
-        difficulty_level = myfontsmall.render("Difficulty: " + level, True, BLACK)
-        difficulty_rect_done = difficulty_level.get_rect(center=bottomright)
-        win.blit(difficulty_level, difficulty_rect_done)
-    elif 1 > difficulty_sum >= .38:
-        level = "Hard"
-        difficulty_level = myfontsmall.render("Difficulty: " + level, True, BLACK)
-        difficulty_rect_done = difficulty_level.get_rect(center=bottomright)
-        win.blit(difficulty_level, difficulty_rect_done)
-    else:
-        pass
-
-    #pygame.draw.rect(win, BLACK, difficulty_rect_done, 1)
+    difficulty_level = myfontsmall.render("Difficulty: " + difficulty, True, BLACK)
+    difficulty_rect_done = difficulty_level.get_rect(center=bottomright)
+    win.blit(difficulty_level, difficulty_rect_done)
 
     # Initialize timer
     start_time = time.time()

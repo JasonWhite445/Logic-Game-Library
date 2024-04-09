@@ -110,6 +110,7 @@ def sudoku_manual_main():
     pygame.draw.rect(win, BLACK, text_rect_done, 1)
 
     def send_manual_grid():
+        global difficulty
         if solver: # Prints a solution to the board the user input
             for i in range(0, size):
                 for j in range(0, size):
@@ -121,6 +122,14 @@ def sudoku_manual_main():
                         win.blit(pos_value, ((j + 1) * 50 + 15, (i + 1) * 50))
             pygame.display.update()
         else: # Sends user to screen where they can try to solve their input
+            difficulty_percent = round(Sudoku.difficulty_sum(grid) / (len(grid)**3), 2)
+            if difficulty_percent <= .25:
+                difficulty = "Easy"
+            elif .38 > difficulty_percent > .25:
+                difficulty = "Medium"
+            elif 1 > difficulty_percent >= .38:
+                difficulty = "Hard"
+            sudoku_game_nxn.difficulty = difficulty
             win.blit(text_finished, text_rect_done)
             pygame.draw.rect(win, BLACK, text_rect_done, 1)
             sudoku_game_nxn.grid = grid
