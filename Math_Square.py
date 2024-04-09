@@ -105,7 +105,7 @@ def main():
     pygame.display.set_caption(f"{size}x{size} Math Square")
     win.fill(background_color)
 
-    # Drawing gridlines
+    # Drawing empty grid
     for i in range(0, 2 * size):
         # Main Grid
         pygame.draw.line(win, (0, 0, 0), (50 + 50 * i, 50), (50 + 50 * i, size*100), 2)
@@ -123,6 +123,10 @@ def main():
         pygame.draw.line(win, (0, 0, 0),
                          (50 + 100 * (i % size), 100 * (size + 0.25) + 50 * (i // size)),
                          (100 + 100 * (i % size), 100 * (size + 0.25) + 50 * (i // size)), 2)
+    for i in range(0, (size - 1)**2):
+        pygame.draw.rect(win, (0, 0, 0),
+                         (100 + 100 * (i // (size - 1)), 100 + 100 * (i % (size - 1)), 50, 50))
+        pass
 
     # Displaying Solution
     for i in range(0, size):
