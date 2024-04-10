@@ -30,35 +30,7 @@ print(grid)
 operators = ['+', '-', '*', '/']
 row_operators, col_operators = [], []
 answers = []
-# operators_easy = ['+', '-', '*']
-# # n rows of n-1 operators
-# row_operators = [[random.choice(operators) for _ in range(size-1)]for _ in range(size)]
-# # n-1 rows of n operators
-# col_operators = [[random.choice(operators) for _ in range(size)]for _ in range(size-1)]
-# print(grid)
-# print(row_operators)
-# print(col_operators)
-#
-# # These two loops can make the equations and evaluate them
-# # Need to modify so that we only get integer outputs
-# bad = []  # Used for testing
-# for r in range(size):
-#     temp = ''
-#     for n in range(size-1):
-#         temp += f"{grid[r][n]}{row_operators[r][n]}"
-#     temp += f"{grid[r][-1]}"
-#     if eval(temp) != int(eval(temp)):
-#         bad.append(f"Row {r+1}")
-#     print(f"{temp} = {eval(temp)}")
-# for c in range(size):
-#     temp = ''
-#     for n in range(size-1):
-#         temp += f"{grid[n][c]}{col_operators[n][c]}"
-#     temp += f"{grid[-1][c]}"
-#     if eval(temp) != int(eval(temp)):
-#         bad.append(f"Column {c+1}")
-#     print(f"{temp} = {eval(temp)}")
-# print(bad)
+
 def main():
     for r in range(size):
         row_signs = []
@@ -77,7 +49,7 @@ def main():
                 n += 1
         row_operators.append(row_signs)
         answers.append(int(eval(temp)))
-        print(f'{temp} = {int(eval(temp))}')
+        # print(f'{temp} = {int(eval(temp))}')
         print(row_signs)
 
     for r in range(size):
@@ -97,11 +69,9 @@ def main():
                 n += 1
         col_operators.append(col_signs)
         answers.append(int(eval(temp)))
-        print(f'{temp} = {int(eval(temp))}')
+        # print(f'{temp} = {int(eval(temp))}')
         print(col_signs)
 
-    print(row_operators, col_operators)
-    print(answers)
     win = pygame.display.set_mode((100 * (size + 1.25), 100 * (size + 1.25)))
     pygame.display.set_caption(f"{size}x{size} Math Square")
     win.fill(background_color)
@@ -133,7 +103,7 @@ def main():
     # Displaying grid numbers
     for i in range(0, size):
         for j in range(0, size):
-            pos_1, pos_2 = 75 + 100 * i, 75 + 100 * j
+            pos_1, pos_2 = 75 + 100 * j, 75 + 100 * i
             value = myfont.render(str(grid[i][j]), True, (0, 0, 0))
             win.blit(value, value.get_rect(center=(pos_1, pos_2)))
 
@@ -150,17 +120,13 @@ def main():
     # Displaying answers
     for a in range(2*size):
         h, f = 100 * (size + .5), 75 + 100 * (a % size)
-        print(answers[a])
         sol = myfont.render(str(answers[a]), True, (0, 0, 0))
-        if sol.get_width() > 50:
+        if sol.get_width() > 48:
             large = sol.get_width()
-            ratio = large / 50
+            ratio = large / 48
             new_font_size = math.floor(font_size / ratio)
-            print('new font size', new_font_size)
-            print(sol, sol.get_width())
             temp_font = pygame.font.SysFont('Comic Sans MS', new_font_size)
             sol = temp_font.render(str(answers[a]), True, (0, 0, 0))
-        # print(sol.get_width())
         if a < size:
             win.blit(sol, sol.get_rect(center=(h, f)))
         else:
