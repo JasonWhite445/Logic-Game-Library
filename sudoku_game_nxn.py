@@ -81,9 +81,6 @@ def insert(win, position, givens):
                         position[0] * 50 + buffer, position[1] * 50 + buffer, 50 - 2 * buffer, 50 - 2 * buffer))
                     highlight_cell(win, position, (255, 255, 255))
                     # print_grid(grid)  # Print the updated grid
-                    if board_checker(grid):
-                        launch_win_screen(win)
-                    return
                 if 0 < event.key - 48 < len(grid) + 1:  # checking for valid input
                     pygame.draw.rect(win, background_color, (
                         position[0] * 50 + buffer, position[1] * 50 + buffer, 50 - 2 * buffer, 50 - 2 * buffer))

@@ -76,14 +76,17 @@ def user_options_main():
                 mouse_pos = pygame.mouse.get_pos()
                 if text_rect_easy.collidepoint(mouse_pos):
                     sudoku_game_nxn.difficulty = "Easy"
+                    sudoku_game_nxn.timer_on = True
                     sudoku_game_nxn.grid = Sudoku_Generator.__main__(size, "easy")[0]
                     option_screen(False)
                 if text_rect_medium.collidepoint(mouse_pos):
                     sudoku_game_nxn.difficulty = "Medium"
+                    sudoku_game_nxn.timer_on = True
                     sudoku_game_nxn.grid = Sudoku_Generator.__main__(size, "medium")[0]
                     option_screen(False)
                 if text_rect_hard.collidepoint(mouse_pos):
                     sudoku_game_nxn.difficulty = "Hard"
+                    sudoku_game_nxn.timer_on = True
                     sudoku_game_nxn.grid = Sudoku_Generator.__main__(size, "hard")[0]
                     option_screen(False)
                 if text_rect_solver.collidepoint(mouse_pos):
