@@ -1,5 +1,6 @@
 import random
 import pygame
+import math
 pygame.init()
 
 """
@@ -7,19 +8,19 @@ WORKS IN PROGRESS
 
 -Edit the way operators are added
     Should be possible to get a / b * c where a / b is not an int
--Scale the answers before they get drawn in their cells
--Empty cells in main grid should be black
 -Show/Hide solution button needed at some point
 -Make more selection screens like Sudoku
 """
 
 background_color = (255, 255, 255)
 original_grid_element_color = (91, 114, 138)
-myfont = pygame.font.SysFont('Comic Sans MS', 35)
+font_size = 20
+myfont = pygame.font.SysFont('Comic Sans MS', font_size)
+my_op_font = pygame.font.SysFont('Comic Sans Ms', 30)
 pygame_icon = pygame.image.load('Smaller_Ean.png')
 pygame.display.set_icon(pygame_icon)
 # Size will be changed later to be user input
-size = 4
+size = 5
 # width, height = 3, 3
 nums = [i+1 for i in range(size**2)]
 random.shuffle(nums)
@@ -132,19 +133,18 @@ def main():
     # Displaying grid numbers
     for i in range(0, size):
         for j in range(0, size):
+            pos_1, pos_2 = 75 + 100 * i, 75 + 100 * j
             value = myfont.render(str(grid[i][j]), True, (0, 0, 0))
-            if grid[i][j] < 10:
-                win.blit(value, ((j + 0.65) * 100, (i + 0.5) * 100))
-            else:
-                win.blit(value, ((j + 0.575) * 100, (i + 0.5) * 100))
+            win.blit(value, value.get_rect(center=(pos_1, pos_2)))
 
     # Displaying grid operators
     for i in range(0, size):
         for j in range(0, size - 1):
-            row_op = myfont.render(row_operators[i][j], True, (0, 0, 0))
-            col_op = myfont.render(col_operators[i][j], True, (0, 0, 0))
-            win.blit(row_op, ((j + 1.15) * 100, (i + 0.5) * 100))
-            win.blit(col_op, ((i + 0.65) * 100, (j + 1) * 100))
+            x, y = 125 + 100 * j, 75 + 100 * i
+            row_op = my_op_font.render(row_operators[i][j], True, (0, 0, 0))
+            col_op = my_op_font.render(col_operators[i][j], True, (0, 0, 0))
+            win.blit(row_op, row_op.get_rect(center=(x, y)))
+            win.blit(col_op, col_op.get_rect(center=(y, x)))
     pygame.display.update()
 
     # Displaying answers
@@ -152,9 +152,15 @@ def main():
         h, f = 100 * (size + .5), 75 + 100 * (a % size)
         print(answers[a])
         sol = myfont.render(str(answers[a]), True, (0, 0, 0))
-        rect = sol.get_rect()
-        rect.width = 50
-        print(rect, rect.width)
+        if sol.get_width() > 50:
+            large = sol.get_width()
+            ratio = large / 50
+            new_font_size = math.floor(font_size / ratio)
+            print('new font size', new_font_size)
+            print(sol, sol.get_width())
+            temp_font = pygame.font.SysFont('Comic Sans MS', new_font_size)
+            sol = temp_font.render(str(answers[a]), True, (0, 0, 0))
+        # print(sol.get_width())
         if a < size:
             win.blit(sol, sol.get_rect(center=(h, f)))
         else:
