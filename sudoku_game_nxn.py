@@ -175,9 +175,11 @@ def sudoku_nxn_main():
                         insert(win, (pos[0] // 50, pos[1] // 50), grid_given)
 
             if event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE:
+                pygame.display.set_caption("Make Your Choice")
                 return
 
             if event.type == pygame.QUIT:
+                pygame.display.set_caption("Make Your Choice")
                 return
         pygame.display.update()
 

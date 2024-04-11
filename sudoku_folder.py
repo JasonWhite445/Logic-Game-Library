@@ -77,9 +77,11 @@ def sudoku_folder_main():
                     launch_sudoku_folder_game()
 
             if event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE:
+                pygame.display.set_caption("Home Screen")
                 return
 
             if event.type == pygame.QUIT:
+                pygame.display.set_caption("Home Screen")
                 return
 
         # Draw the home screen

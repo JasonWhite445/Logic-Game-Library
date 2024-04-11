@@ -100,9 +100,11 @@ def user_options_main():
 
 
             if event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE:
+                pygame.display.set_caption("Sudoku Types")
                 return
 
             if event.type == pygame.QUIT:
+                pygame.display.set_caption("Sudoku Types")
                 return
 
         draw_user_screen_options()
