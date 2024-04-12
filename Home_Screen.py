@@ -21,19 +21,17 @@ def home_screen_main():
     # Create font objects
     font = pygame.font.SysFont('Cooper Black', 50)
 
-    # Draw "Sudoku" text in a rectangle
-    text_surface_sudoku = font.render("Sudoku", True, BLACK)
-    text_rect_sudoku = text_surface_sudoku.get_rect(center=(WIDTH//2, HEIGHT//2))
+    # Defines and positions Sudoku logo to draw
+    text_surface_sudoku = pygame.image.load('./250_Sudoku.png')
+    text_rect_sudoku = text_surface_sudoku.get_rect(center=(WIDTH // 2, HEIGHT // 1.35))
 
-    # Draw "Sudoku 12x12" text in a rectangle
-    text_surface_other_game = font.render("Other Game", True, GRAY)
-    text_rect_other_game = text_surface_other_game.get_rect(center=(WIDTH//2, HEIGHT//4))
+    # Defines and positions math squares logo to draw
+    text_surface_other_game = pygame.image.load('./250_MathSquares.png')
+    text_rect_other_game = text_surface_sudoku.get_rect(center=(WIDTH // 2, HEIGHT // 3.75))
 
     def draw_home_screen():
         screen.fill(BLUE)
-        pygame.draw.rect(screen, BLACK, text_rect_sudoku, 1)
         screen.blit(text_surface_sudoku, text_rect_sudoku)
-        pygame.draw.rect(screen, BLACK, text_rect_other_game, 1)
         screen.blit(text_surface_other_game, text_rect_other_game)
 
     def launch_sudoku_game():
