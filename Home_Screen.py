@@ -22,17 +22,17 @@ def home_screen_main():
     font = pygame.font.SysFont('Cooper Black', 50)
 
     # Defines and positions Sudoku logo to draw
-    text_surface_sudoku = pygame.image.load('./250_Sudoku.png')
-    text_rect_sudoku = text_surface_sudoku.get_rect(center=(WIDTH // 2, HEIGHT // 1.35))
+    pic_surface_sudoku = pygame.image.load('./250_Sudoku.png')
+    pic_rect_sudoku = pic_surface_sudoku.get_rect(center=(WIDTH // 2, HEIGHT // 1.35))
 
     # Defines and positions math squares logo to draw
-    text_surface_other_game = pygame.image.load('./250_MathSquares.png')
-    text_rect_other_game = text_surface_sudoku.get_rect(center=(WIDTH // 2, HEIGHT // 3.75))
+    pic_surface_math_squares = pygame.image.load('./250_MathSquares.png')
+    pic_rect_math_squares = pic_surface_sudoku.get_rect(center=(WIDTH // 2, HEIGHT // 3.75))
 
     def draw_home_screen():
         screen.fill(BLUE)
-        screen.blit(text_surface_sudoku, text_rect_sudoku)
-        screen.blit(text_surface_other_game, text_rect_other_game)
+        screen.blit(pic_surface_sudoku, pic_rect_sudoku)
+        screen.blit(pic_surface_math_squares, pic_rect_math_squares)
 
     def launch_sudoku_game():
         # User_options.user_options_main()
@@ -49,7 +49,7 @@ def home_screen_main():
                 sys.exit()
             elif event.type == pygame.MOUSEBUTTONUP:
                 mouse_pos = pygame.mouse.get_pos()
-                if text_rect_sudoku.collidepoint(mouse_pos):
+                if pic_rect_sudoku.collidepoint(mouse_pos):
                     launch_sudoku_game()
 
             if event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE:
