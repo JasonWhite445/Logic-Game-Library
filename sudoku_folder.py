@@ -17,7 +17,7 @@ def sudoku_folder_main():
 
     # Set up the display
     WIDTH, HEIGHT = 550, 550
-    screen = pygame.display.set_mode((WIDTH, HEIGHT))
+    screen = pygame.display.set_mode((WIDTH, HEIGHT), pygame.RESIZABLE)
     pygame.display.set_caption("Sudoku Types")
 
     # Create font objects
@@ -78,6 +78,7 @@ def sudoku_folder_main():
 
             if event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE:
                 pygame.display.set_caption("Home Screen")
+
                 return
 
             if event.type == pygame.QUIT:
