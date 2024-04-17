@@ -15,7 +15,6 @@ def home_screen_main():
 
     # Set up the display
     SQUARE_DIMENSION = min(pygame.display.Info().current_h, pygame.display.Info().current_w) - 100
-    # SQUARE_DIMENSION = 400
     ORIGINAL_SCALE = round(SQUARE_DIMENSION / 11, 3)
     IMAGE_SIZE = (SQUARE_DIMENSION / 2.5, SQUARE_DIMENSION / 2.5)
     # WIDTH, HEIGHT = 550, 550
@@ -45,6 +44,7 @@ def home_screen_main():
         # User_options.user_options_main()
         # draw_home_screen()
         sudoku_folder.sudoku_folder_main()
+        draw_home_screen()
 
     # Main loop
     running = True
@@ -58,6 +58,7 @@ def home_screen_main():
                     SQUARE_DIMENSION = event.w
                 else:
                     SQUARE_DIMENSION = max(event.w, event.h)
+                # Redraws screen when resizing
                 screen = pygame.display.set_mode((SQUARE_DIMENSION, SQUARE_DIMENSION), pygame.RESIZABLE)
                 pic_surface_sudoku = pygame.transform.scale(pic_surface_sudoku,
                                                             (SQUARE_DIMENSION / 2.5, SQUARE_DIMENSION / 2.5))
@@ -67,22 +68,30 @@ def home_screen_main():
                     center=(SQUARE_DIMENSION // 2, SQUARE_DIMENSION // 1.35))
                 pic_rect_math_squares = pic_surface_math_squares.get_rect(
                     center=(SQUARE_DIMENSION // 2, SQUARE_DIMENSION // 3.75))
-                draw_home_screen()
 
-            if event.type == pygame.QUIT:
-                running = False
-                pygame.quit()
-                sys.exit()
             elif event.type == pygame.MOUSEBUTTONUP:
                 mouse_pos = pygame.mouse.get_pos()
                 if pic_rect_sudoku.collidepoint(mouse_pos):
                     launch_sudoku_game()
+                    # Redraws the screen when returning from next screen
+                    SQUARE_DIMENSION = screen.get_width()
+                    screen = pygame.display.set_mode((SQUARE_DIMENSION, SQUARE_DIMENSION), pygame.RESIZABLE)
+                    pic_surface_sudoku = pygame.transform.scale(pic_surface_sudoku,
+                                                                (SQUARE_DIMENSION / 2.5, SQUARE_DIMENSION / 2.5))
+                    pic_surface_math_squares = pygame.transform.scale(pic_surface_math_squares,
+                                                                      (SQUARE_DIMENSION / 2.5, SQUARE_DIMENSION / 2.5))
+                    pic_rect_sudoku = pic_surface_sudoku.get_rect(
+                        center=(SQUARE_DIMENSION // 2, SQUARE_DIMENSION // 1.35))
+                    pic_rect_math_squares = pic_surface_math_squares.get_rect(
+                        center=(SQUARE_DIMENSION // 2, SQUARE_DIMENSION // 3.75))
 
             if event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE:
-                return
+                pygame.quit()
+                sys.exit()
 
             if event.type == pygame.QUIT:
-                return
+                pygame.quit()
+                sys.exit()
 
         # Draw the home screen
         draw_home_screen()
