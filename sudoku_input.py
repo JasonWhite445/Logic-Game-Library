@@ -3,10 +3,10 @@ import sudoku_game_nxn
 import pygame
 import Sudoku
 
-grid = None
+grid = []
 solver = False
-WIDTH = 550
-HEIGHT = 550
+# WIDTH = 550
+# HEIGHT = 550
 background_color = (255, 255, 255)
 original_grid_element_color = (91, 114, 138)
 buffer = 5
@@ -15,6 +15,7 @@ WHITE = (255, 255, 255)
 BLACK = (0, 0, 0)
 RED = (255, 0, 0)
 BLUE = (217, 247, 250)
+SQUARE_DIMENSION = 0
 
 # Create font objects
 
@@ -31,7 +32,8 @@ def board_checker(board):
         if sorted(full_column) != sorted(list(set(full_column))):
             return False
     for box in range(size):
-        full_box = [board[pos // width + box // height * height][pos % width + box % height * width] for pos in range(size)
+        full_box = [board[pos // width + box // height * height][pos % width + box % height * width]
+                    for pos in range(size)
                     if board[pos // width + box // height * height][pos % width + box % height * width] != 0]
         if sorted(full_box) != sorted(list(set(full_box))):
             return False
@@ -88,8 +90,8 @@ def insert(win, position):
 
 # prints board for debugging
 
-def print_grid(grid):
-    for row in grid:
+def print_grid(board):
+    for row in board:
         print(row)
     print("\n")
 
@@ -101,7 +103,7 @@ def sudoku_manual_main():
     pygame.display.set_caption("Manual Sodoku")
     win.fill(background_color)
     myfont = pygame.font.SysFont('Comic Sans MS', 35)
-    mysmallfont = pygame.font.SysFont('Comic Sans MS', 25)
+    # mysmallfont = pygame.font.SysFont('Comic Sans MS', 25)
 
     text_finished = myfont.render("Done", True, BLACK)
 
@@ -110,8 +112,7 @@ def sudoku_manual_main():
     pygame.draw.rect(win, BLACK, text_rect_done, 1)
 
     def send_manual_grid():
-        global difficulty
-        if solver: # Prints a solution to the board the user input
+        if solver:  # Prints a solution to the board the user input
             for i in range(0, size):
                 for j in range(0, size):
                     if grid[i][j] == 0:
@@ -121,7 +122,7 @@ def sudoku_manual_main():
                         pos_value = myfont.render(str(solution[i][j]), False, original_grid_element_color)
                         win.blit(pos_value, ((j + 1) * 50 + 15, (i + 1) * 50))
             pygame.display.update()
-        else: # Sends user to screen where they can try to solve their input
+        else:  # Sends user to screen where they can try to solve their input
             difficulty_percent = round(Sudoku.difficulty_sum(grid) / (len(grid)**3), 2)
             if difficulty_percent <= .25:
                 difficulty = "Easy"

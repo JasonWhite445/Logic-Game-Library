@@ -5,15 +5,13 @@ import sys
 
 
 # Set up the display
-SQUARE_DIMENSION = 500
+SQUARE_DIMENSION = 0
 
 def sudoku_folder_main():
     global SQUARE_DIMENSION
     # Define colors
-    WHITE = (255, 255, 255)
     BLACK = (0, 0, 0)
     BLUE = (217, 247, 250)
-    GRAY = (169, 169, 169)
     SCALE = round(SQUARE_DIMENSION / 11, 3)
 
     # Initialize Pygame
@@ -52,7 +50,7 @@ def sudoku_folder_main():
         screen.blit(text_surface8x8, text_rect8x8)
 
     def launch_sudoku_folder_game():
-        draw_sudoku_folder_home_screen()
+        User_options.SQUARE_DIMENSION = SQUARE_DIMENSION
         User_options.user_options_main()
 
     # Main loop
@@ -84,16 +82,19 @@ def sudoku_folder_main():
                 if text_rect9x9.collidepoint(mouse_pos):
                     User_options.size = 9
                     launch_sudoku_folder_game()
+                    SQUARE_DIMENSION = User_options.SQUARE_DIMENSION
                 if text_rect6x6.collidepoint(mouse_pos):
                     User_options.size = 6
                     launch_sudoku_folder_game()
+                    SQUARE_DIMENSION = User_options.SQUARE_DIMENSION
                 if text_rect4x4.collidepoint(mouse_pos):
                     User_options.size = 4
                     launch_sudoku_folder_game()
+                    SQUARE_DIMENSION = User_options.SQUARE_DIMENSION
                 if text_rect8x8.collidepoint(mouse_pos):
                     User_options.size = 8
                     launch_sudoku_folder_game()
-                SQUARE_DIMENSION = screen.get_width()
+                    SQUARE_DIMENSION = User_options.SQUARE_DIMENSION
                 screen = pygame.display.set_mode((SQUARE_DIMENSION, SQUARE_DIMENSION), pygame.RESIZABLE)
                 SCALE = round(SQUARE_DIMENSION / 11, 3)
                 font = pygame.font.SysFont('Cooper Black', int(SCALE))
