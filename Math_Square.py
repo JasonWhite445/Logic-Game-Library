@@ -13,7 +13,7 @@ WORKS IN PROGRESS
 """
 
 # Size will be changed later to be user input
-size = 5
+size = 6
 background_color = (255, 255, 255)
 original_grid_element_color = (91, 114, 138)
 original_scale = 50
@@ -26,10 +26,7 @@ my_font = pygame.font.SysFont('Comic Sans MS', font_size)
 pygame_icon = pygame.image.load('Smaller_Ean.png')
 pygame.display.set_icon(pygame_icon)
 
-nums = [i+1 for i in range(size**2)]
-random.shuffle(nums)
-# Grid is a random array of the numbers from 1 to size^2
-grid = [nums[size*i:size*(i+1)] for i in range(size)]
+
 # print(grid)
 operators = ['+', '-', '*', '/']
 row_operators, col_operators = [], []
@@ -38,7 +35,10 @@ answers = []
 def main():
     global original_scale
     global screen_size
-
+    nums = [i + 1 for i in range(size ** 2)]
+    random.shuffle(nums)
+    # Grid is a random array of the numbers from 1 to size^2
+    grid = [nums[size*i:size*(i+1)] for i in range(size)]
     for r in range(size):
         row_signs = []
         temp = f'{grid[r][0]}'
@@ -175,4 +175,4 @@ def main():
         pygame.display.update()
 
 
-main()
+# main()

@@ -1,5 +1,7 @@
 import pygame
 import sys
+
+import math_square_folder
 import sudoku_folder
 
 
@@ -47,6 +49,13 @@ def home_screen_main():
         sudoku_folder.sudoku_folder_main()
         draw_home_screen()
 
+    def launch_math_square_game():
+        # User_options.user_options_main()
+        # draw_home_screen()
+        sudoku_folder.SQUARE_DIMENSION = SQUARE_DIMENSION
+        math_square_folder.math_square_folder_main()
+        draw_home_screen()
+
     # Main loop
     running = True
     while running:
@@ -76,6 +85,22 @@ def home_screen_main():
                 mouse_pos = pygame.mouse.get_pos()
                 if pic_rect_sudoku.collidepoint(mouse_pos):
                     launch_sudoku_game()
+                    # Redraws the screen when returning from next screen
+                    SQUARE_DIMENSION = sudoku_folder.SQUARE_DIMENSION
+                    pic_surface_sudoku = pygame.image.load('./250_Sudoku.png')
+                    pic_surface_math_squares = pygame.image.load('./250_MathSquares.png')
+                    screen = pygame.display.set_mode((SQUARE_DIMENSION, SQUARE_DIMENSION), pygame.RESIZABLE)
+                    pic_surface_sudoku = pygame.transform.scale(pic_surface_sudoku,
+                                                                (SQUARE_DIMENSION / 2.5, SQUARE_DIMENSION / 2.5))
+                    pic_surface_math_squares = pygame.transform.scale(pic_surface_math_squares,
+                                                                      (SQUARE_DIMENSION / 2.5, SQUARE_DIMENSION / 2.5))
+                    pic_rect_sudoku = pic_surface_sudoku.get_rect(
+                        center=(SQUARE_DIMENSION // 2, SQUARE_DIMENSION // 1.35))
+                    pic_rect_math_squares = pic_surface_math_squares.get_rect(
+                        center=(SQUARE_DIMENSION // 2, SQUARE_DIMENSION // 3.75))
+
+                if pic_rect_math_squares.collidepoint(mouse_pos):
+                    launch_math_square_game()
                     # Redraws the screen when returning from next screen
                     SQUARE_DIMENSION = sudoku_folder.SQUARE_DIMENSION
                     pic_surface_sudoku = pygame.image.load('./250_Sudoku.png')
