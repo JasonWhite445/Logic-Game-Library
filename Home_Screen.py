@@ -5,24 +5,24 @@ import sudoku_folder
 
 def home_screen_main():
     # Define colors
-    WHITE = (255, 255, 255)
-    BLACK = (0, 0, 0)
+    # WHITE = (255, 255, 255)
+    # BLACK = (0, 0, 0)
     BLUE = (217, 247, 250)
-    GRAY = (169, 169, 169)
+    # GRAY = (169, 169, 169)
 
     # Initialize Pygame
     pygame.init()
 
     # Set up the display
     SQUARE_DIMENSION = min(pygame.display.Info().current_h, pygame.display.Info().current_w) - 100
-    SCALE = round(SQUARE_DIMENSION / 11, 3)
+    # SCALE = round(SQUARE_DIMENSION / 11, 3)
     IMAGE_SIZE = (SQUARE_DIMENSION / 2.5, SQUARE_DIMENSION / 2.5)
     # WIDTH, HEIGHT = 550, 550
     screen = pygame.display.set_mode((SQUARE_DIMENSION, SQUARE_DIMENSION), pygame.RESIZABLE)
     pygame.display.set_caption("Home Screen")
 
     # Create font objects
-    font = pygame.font.SysFont('Cooper Black', int(SCALE))
+    # font = pygame.font.SysFont('Cooper Black', int(SCALE))
 
     # Defines and positions Sudoku logo to draw
     pic_surface_sudoku = pygame.image.load('./250_Sudoku.png')
@@ -38,14 +38,10 @@ def home_screen_main():
         screen.fill(BLUE)
         screen.blit(pic_surface_sudoku, pic_rect_sudoku)
         screen.blit(pic_surface_math_squares, pic_rect_math_squares)
-        # screen.blit(picture surface, picture location)
 
     def launch_sudoku_game():
-        # User_options.user_options_main()
-        # draw_home_screen()
         sudoku_folder.SQUARE_DIMENSION = SQUARE_DIMENSION
         sudoku_folder.sudoku_folder_main()
-        draw_home_screen()
 
     # Main loop
     running = True
