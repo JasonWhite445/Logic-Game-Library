@@ -13,16 +13,16 @@ WORKS IN PROGRESS
 """
 
 # Size will be changed later to be user input
-size = 10
+size = 5
 background_color = (255, 255, 255)
 original_grid_element_color = (91, 114, 138)
-font_size = 20
 original_scale = 50
 screen_size = 2 * original_scale * (size + 1.25)
 if screen_size > min(pygame.display.Info().current_h, pygame.display.Info().current_w):
     screen_size = min(pygame.display.Info().current_h, pygame.display.Info().current_w) - 100
     original_scale = round(screen_size / (2 * (size + 1.25)), 3)
-myfont = pygame.font.SysFont('Comic Sans MS', font_size)
+font_size = int(.4 * original_scale)
+my_font = pygame.font.SysFont('Comic Sans MS', font_size)
 pygame_icon = pygame.image.load('Smaller_Ean.png')
 pygame.display.set_icon(pygame_icon)
 
@@ -84,6 +84,11 @@ def main():
     win.fill(background_color)
 
     def draw_grid(scale):
+        global font_size
+        global my_font
+        font_size = int(.4 * scale)
+        my_font = pygame.font.SysFont('Comic Sans MS', font_size)
+        my_op_font = pygame.font.SysFont('Comic Sans Ms', int(.6 * scale))
         win.fill(background_color)
         # Drawing empty grid
         for i in range(0, 2 * size):
@@ -119,11 +124,10 @@ def main():
         for i in range(0, size):
             for j in range(0, size):
                 pos_1, pos_2 = 2 * scale * (j+.75), 2 * scale * (i+.75)
-                value = myfont.render(str(grid[i][j]), True, (0, 0, 0))
+                value = my_font.render(str(grid[i][j]), True, (0, 0, 0))
                 win.blit(value, value.get_rect(center=(pos_1, pos_2)))
 
         # Displaying grid operators
-        my_op_font = pygame.font.SysFont('Comic Sans Ms', int(.6 * scale))
         for i in range(0, size):
             for j in range(0, size - 1):
                 x, y = 2 * scale * (j+1.25), 2 * scale * (i+.75)
@@ -135,7 +139,7 @@ def main():
         # Displaying answers
         for a in range(2*size):
             h, f = 2 * scale * (size + .5), 2 * scale * ((a % size) + .75)
-            sol = myfont.render(str(answers[a]), True, (0, 0, 0))
+            sol = my_font.render(str(answers[a]), True, (0, 0, 0))
             if sol.get_width() > .9 * scale:
                 large = sol.get_width()
                 ratio = large / (.9 * scale)
@@ -169,5 +173,6 @@ def main():
             if event.type == pygame.QUIT:
                 return
         pygame.display.update()
+
 
 main()
