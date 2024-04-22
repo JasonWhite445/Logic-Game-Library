@@ -175,11 +175,9 @@ def sudoku_nxn_main():
         if timer_on:
             # Calculate elapsed time
             elapsed_time = time.time() - start_time
-
             # Clear previous timer text
             pygame.draw.rect(win, background_color,
                              (0, 0, SQUARE_DIMENSION, 0.84 * SCALE))
-
             # Display timer
             timer_text = myfont.render(f"Time: {elapsed_time:.0f}", True, (0, 0, 0))
             win.blit(timer_text, timer_text.get_rect(center=(SQUARE_DIMENSION / 2, SCALE / 2)))
