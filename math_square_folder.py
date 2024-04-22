@@ -4,9 +4,8 @@ import Math_Square
 import User_options
 import sys
 
-# please commit :(
 # Set up the display
-SQUARE_DIMENSION = 500
+SQUARE_DIMENSION = 0
 
 def math_square_folder_main():
     global SQUARE_DIMENSION
@@ -51,6 +50,7 @@ def math_square_folder_main():
         screen.blit(text_surface5x5, text_rect5x5)
 
     def launch_math_square_folder_game():
+        Math_Square.SQUARE_DIMENSION = SQUARE_DIMENSION
         draw_math_square_folder_home_screen()
         Math_Square.main()
 

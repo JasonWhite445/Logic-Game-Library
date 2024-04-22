@@ -13,32 +13,29 @@ WORKS IN PROGRESS
 """
 
 # Size will be changed later to be user input
-size = 6
+size = 0
+SQUARE_DIMENSION = 0
 background_color = (255, 255, 255)
 original_grid_element_color = (91, 114, 138)
-original_scale = 50
-screen_size = 2 * original_scale * (size + 1.25)
-if screen_size > min(pygame.display.Info().current_h, pygame.display.Info().current_w):
-    screen_size = min(pygame.display.Info().current_h, pygame.display.Info().current_w) - 100
-    original_scale = round(screen_size / (2 * (size + 1.25)), 3)
-font_size = int(.4 * original_scale)
-my_font = pygame.font.SysFont('Comic Sans MS', font_size)
+
 pygame_icon = pygame.image.load('Smaller_Ean.png')
 pygame.display.set_icon(pygame_icon)
 
 
 # print(grid)
-operators = ['+', '-', '*', '/']
-row_operators, col_operators = [], []
-answers = []
+
 
 def main():
-    global original_scale
-    global screen_size
+    global SQUARE_DIMENSION
+    global size
+    SCALE = round(SQUARE_DIMENSION / (2 * (size + 1.25)), 3)
     nums = [i + 1 for i in range(size ** 2)]
     random.shuffle(nums)
     # Grid is a random array of the numbers from 1 to size^2
     grid = [nums[size*i:size*(i+1)] for i in range(size)]
+    operators = ['+', '-', '*', '/']
+    row_operators, col_operators = [], []
+    answers = []
     for r in range(size):
         row_signs = []
         temp = f'{grid[r][0]}'
@@ -79,13 +76,11 @@ def main():
         # print(f'{temp} = {int(eval(temp))}')
         # print(col_signs)
 
-    win = pygame.display.set_mode((screen_size, screen_size), pygame.RESIZABLE)
+    win = pygame.display.set_mode((SQUARE_DIMENSION, SQUARE_DIMENSION), pygame.RESIZABLE)
     pygame.display.set_caption(f"{size}x{size} Math Square")
     win.fill(background_color)
 
     def draw_grid(scale):
-        global font_size
-        global my_font
         font_size = int(.4 * scale)
         my_font = pygame.font.SysFont('Comic Sans MS', font_size)
         my_op_font = pygame.font.SysFont('Comic Sans Ms', int(.6 * scale))
@@ -151,21 +146,22 @@ def main():
             else:
                 win.blit(sol, sol.get_rect(center=(f, h)))
             pass
-    draw_grid(original_scale)
+
+    draw_grid(SCALE)
 
     while True:
         for event in pygame.event.get():
             if event.type == pygame.VIDEORESIZE:
                 # Calculate the new size while keeping the aspect ratio square
-                if event.w == screen_size:
-                    screen_size = event.h
-                elif event.h == screen_size:
-                    screen_size = event.w
+                if event.w == SQUARE_DIMENSION:
+                    SQUARE_DIMENSION = event.h
+                elif event.h == SQUARE_DIMENSION:
+                    SQUARE_DIMENSION = event.w
                 else:
-                    screen_size = max(event.w, event.h)
-                win = pygame.display.set_mode((screen_size, screen_size), pygame.RESIZABLE)
-                new_scale = round(screen_size / (2 * (size + 1.25)), 3)
-                draw_grid(new_scale)
+                    SQUARE_DIMENSION = max(event.w, event.h)
+                win = pygame.display.set_mode((SQUARE_DIMENSION, SQUARE_DIMENSION), pygame.RESIZABLE)
+                SCALE = round(SQUARE_DIMENSION / (2 * (size + 1.25)), 3)
+                draw_grid(SCALE)
 
             if event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE:
                 return

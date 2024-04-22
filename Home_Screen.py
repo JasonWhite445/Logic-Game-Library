@@ -48,7 +48,7 @@ def home_screen_main():
     def launch_math_square_game():
         # User_options.user_options_main()
         # draw_home_screen()
-        sudoku_folder.SQUARE_DIMENSION = SQUARE_DIMENSION
+        math_square_folder.SQUARE_DIMENSION = SQUARE_DIMENSION
         math_square_folder.math_square_folder_main()
         draw_home_screen()
 
@@ -98,7 +98,7 @@ def home_screen_main():
                 if pic_rect_math_squares.collidepoint(mouse_pos):
                     launch_math_square_game()
                     # Redraws the screen when returning from next screen
-                    SQUARE_DIMENSION = sudoku_folder.SQUARE_DIMENSION
+                    SQUARE_DIMENSION = math_square_folder.SQUARE_DIMENSION
                     pic_surface_sudoku = pygame.image.load('./250_Sudoku.png')
                     pic_surface_math_squares = pygame.image.load('./250_MathSquares.png')
                     screen = pygame.display.set_mode((SQUARE_DIMENSION, SQUARE_DIMENSION), pygame.RESIZABLE)
