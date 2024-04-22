@@ -2,9 +2,10 @@ import copy
 import sys
 import pygame
 import time
-import Sudoku
+# import Sudoku
 
 grid = []
+won = False
 size = len(grid)
 difficulty = ""
 # WIDTH = 550
@@ -55,14 +56,18 @@ def highlight_cell(win, position, color, buffer):
 
 
 def launch_win_screen(win):
+    global won
+    won = True
     SCALE = SQUARE_DIMENSION / (size+2)
     win.fill(background_color)
-    font = pygame.font.SysFont('Comic Sans MS', int(SCALE * .8))
+    font = pygame.font.SysFont('Comic Sans MS', int(SCALE))
     image = pygame.image.load('./Smaller_Ean.png')
+    image = pygame.transform.scale(image, (SQUARE_DIMENSION * .85, SQUARE_DIMENSION * .85))
     text = font.render('You Win!', True, (0, 0, 0))
+    text_rect = text.get_rect(center=(SQUARE_DIMENSION // 2, SCALE // 2))
 
-    win.blit(text, (int(0.1 * SCALE), 0))
-    win.blit(image, (0.2 * SCALE, 0.3 * SCALE))
+    win.blit(text, text_rect)
+    win.blit(image, (SCALE, SCALE))
     global timer_on
     timer_on = False
     pygame.display.update()
@@ -190,15 +195,17 @@ def sudoku_nxn_main():
                     SQUARE_DIMENSION = max(event.w, event.h)
                 SCALE = SQUARE_DIMENSION / (size + 2)
                 win = pygame.display.set_mode((SQUARE_DIMENSION, SQUARE_DIMENSION), pygame.RESIZABLE)
-                pygame.display.set_caption(f"{size}x{size} sudoku")
-                win.fill(background_color)
-                myfont = pygame.font.SysFont('Comic Sans MS', int(0.7 * SCALE))
-                myfontsmall = pygame.font.SysFont('Comic Sans MS', int(0.5 * SCALE))
-                bottomright = ((SCALE / 2 * (size + 2)), (SCALE * (size + 1.5)))
-                difficulty_level = myfontsmall.render("Difficulty: " + difficulty, True, BLACK)
-                difficulty_rect_done = difficulty_level.get_rect(center=bottomright)
-                win.blit(difficulty_level, difficulty_rect_done)
-                draw_gridlines(original)
+                if won:
+                    launch_win_screen(win)
+                else:
+                    win.fill(background_color)
+                    myfont = pygame.font.SysFont('Comic Sans MS', int(0.7 * SCALE))
+                    myfontsmall = pygame.font.SysFont('Comic Sans MS', int(0.5 * SCALE))
+                    bottomright = ((SCALE / 2 * (size + 2)), (SCALE * (size + 1.5)))
+                    difficulty_level = myfontsmall.render("Difficulty: " + difficulty, True, BLACK)
+                    difficulty_rect_done = difficulty_level.get_rect(center=bottomright)
+                    win.blit(difficulty_level, difficulty_rect_done)
+                    draw_gridlines(original)
 
 
             if event.type == pygame.MOUSEBUTTONUP and event.button == 1:
