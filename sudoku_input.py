@@ -137,6 +137,8 @@ def sudoku_manual_main():
             win.blit(text_finished, text_rect_done)
             pygame.draw.rect(win, BLACK, text_rect_done, 1)
             sudoku_game_nxn.grid = grid
+            sudoku_game_nxn.won = False
+            sudoku_game_nxn.SQUARE_DIMENSION = SQUARE_DIMENSION
             sudoku_game_nxn.sudoku_nxn_main()
 
     def draw_gridlines():

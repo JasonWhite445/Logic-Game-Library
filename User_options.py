@@ -59,6 +59,7 @@ def user_options_main():
             sudoku_input.sudoku_manual_main()
         else:
             sudoku_game_nxn.SQUARE_DIMENSION = SQUARE_DIMENSION
+            sudoku_game_nxn.won = False
             sudoku_game_nxn.sudoku_nxn_main()
 
 
