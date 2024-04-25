@@ -1,6 +1,7 @@
 import random
 import pygame
 import math
+import sys
 pygame.init()
 
 """
@@ -17,6 +18,8 @@ size = 0
 SQUARE_DIMENSION = 0
 background_color = (255, 255, 255)
 original_grid_element_color = (91, 114, 138)
+show_solution = False
+text_rect_solution = pygame.Rect(0, 0, 0, 0)
 
 pygame_icon = pygame.image.load('Smaller_Ean.png')
 pygame.display.set_icon(pygame_icon)
@@ -28,6 +31,7 @@ pygame.display.set_icon(pygame_icon)
 def main():
     global SQUARE_DIMENSION
     global size
+    global text_rect_solution
     SCALE = round(SQUARE_DIMENSION / (2 * (size + 1.25)), 3)
     nums = [i + 1 for i in range(size ** 2)]
     random.shuffle(nums)
@@ -56,6 +60,28 @@ def main():
         # print(f'{temp} = {int(eval(temp))}')
         # print(row_signs)
 
+    def solution(scale):
+        global show_solution
+        font_size = int(.4 * scale)
+        my_font = pygame.font.SysFont('Comic Sans MS', font_size)
+        if not show_solution:
+            show_solution = True
+            # Displaying grid numbers
+            for i in range(0, size):
+                for j in range(0, size):
+                    pos_1, pos_2 = 2 * scale * (j+.75), 2 * scale * (i+.75)
+                    value = my_font.render(str(grid[i][j]), True, (0, 0, 0))
+                    win.blit(value, value.get_rect(center=(pos_1, pos_2)))
+        else:
+            show_solution = False
+            # Hiding grid numbers
+            for i in range(0, size):
+                for j in range(0, size):
+                    pygame.draw.rect(win, background_color,
+                                     (2 * scale * (i + .53), 2 * scale * (j + .53), scale * .9, scale * .9))
+
+
+
     for r in range(size):
         col_signs = []
         temp = f'{grid[0][r]}'
@@ -81,6 +107,7 @@ def main():
     win.fill(background_color)
 
     def draw_grid(scale):
+        global text_rect_solution
         font_size = int(.4 * scale)
         my_font = pygame.font.SysFont('Comic Sans MS', font_size)
         my_op_font = pygame.font.SysFont('Comic Sans Ms', int(.6 * scale))
@@ -115,13 +142,6 @@ def main():
                               scale, scale))
             pass
 
-        # Displaying grid numbers - Only for testing
-        for i in range(0, size):
-            for j in range(0, size):
-                pos_1, pos_2 = 2 * scale * (j+.75), 2 * scale * (i+.75)
-                value = my_font.render(str(grid[i][j]), True, (0, 0, 0))
-                win.blit(value, value.get_rect(center=(pos_1, pos_2)))
-
         # Displaying grid operators
         for i in range(0, size):
             for j in range(0, size - 1):
@@ -145,7 +165,15 @@ def main():
                 win.blit(sol, sol.get_rect(center=(h, f)))
             else:
                 win.blit(sol, sol.get_rect(center=(f, h)))
-            pass
+
+        # Drawing Solution Button
+        button_font = pygame.font.SysFont('Comic Sans MS', int(SCALE * .5))
+        text_surface_solution = button_font.render("Show/Hide Solution", True, (0, 0, 0))
+        position = (SQUARE_DIMENSION / 2, SCALE / 2)
+        text_rect_solution = text_surface_solution.get_rect(center=position)
+        pygame.draw.rect(win, (0, 0, 0), text_rect_solution, 1)
+        win.blit(text_surface_solution, text_rect_solution)
+
 
     draw_grid(SCALE)
 
@@ -163,11 +191,17 @@ def main():
                 SCALE = round(SQUARE_DIMENSION / (2 * (size + 1.25)), 3)
                 draw_grid(SCALE)
 
+            if event.type == pygame.MOUSEBUTTONUP:
+                mouse_pos = pygame.mouse.get_pos()
+                if text_rect_solution.collidepoint(mouse_pos):
+                    solution(SCALE)
+
             if event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE:
                 return
 
             if event.type == pygame.QUIT:
-                return
+                sys.exit()
+
         pygame.display.update()
 
 
