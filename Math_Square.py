@@ -25,9 +25,6 @@ pygame_icon = pygame.image.load('Smaller_Ean.png')
 pygame.display.set_icon(pygame_icon)
 
 
-# print(grid)
-
-
 def main():
     global SQUARE_DIMENSION
     global size
@@ -81,7 +78,6 @@ def main():
                                      (2 * scale * (i + .53), 2 * scale * (j + .53), scale * .9, scale * .9))
 
 
-
     for r in range(size):
         col_signs = []
         temp = f'{grid[0][r]}'
@@ -105,6 +101,14 @@ def main():
     win = pygame.display.set_mode((SQUARE_DIMENSION, SQUARE_DIMENSION), pygame.RESIZABLE)
     pygame.display.set_caption(f"{size}x{size} Math Square")
     win.fill(background_color)
+
+    def highlight_cell(window, position, color, buffer):
+        pygame.draw.rect(window, color, (buffer * (20 * position[0] + 11), buffer * (20 * position[1] + 11),
+                                         8 * buffer, 8 * buffer), int(buffer * .6))
+        pygame.display.update()
+
+    def insert(window, position, buffer):
+        pass
 
     def draw_grid(scale):
         global text_rect_solution
@@ -193,6 +197,11 @@ def main():
 
             if event.type == pygame.MOUSEBUTTONUP:
                 mouse_pos = pygame.mouse.get_pos()
+                cell = ((mouse_pos[0] // SCALE - 1) / 2, (mouse_pos[1] // SCALE - 1) / 2)
+                if ((int(cell[0]) == cell[0] and int(cell[1]) == cell[1])
+                        and cell[0] < size and cell[1] < size):
+                    print(cell)
+                    highlight_cell(win, cell, (255, 0, 0), .1 * SCALE)
                 if text_rect_solution.collidepoint(mouse_pos):
                     solution(SCALE)
 
